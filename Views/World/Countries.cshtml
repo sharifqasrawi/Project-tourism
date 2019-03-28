@@ -1,0 +1,88 @@
+﻿@model IPagedList<TravelAndTourismWebsite.Models.Country>
+@using TravelAndTourismWebsite.Resources
+@using TravelAndTourismWebsite.WebsiteLanguages
+@using PagedList
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = Resource.Countries2;
+}
+
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+            <img src="~/Images/w2.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-globe"></span>
+                    @Resource.Countries2
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="alert alert-info text-center">
+            <span class="glyphicon glyphicon-info-sign"></span>
+            @Resource.FindCountry
+        </h2>
+    </div>
+</div>
+<br />
+<!-- Search -->
+<div class="row">
+    @using (Html.BeginForm("Countries", "World", FormMethod.Get))
+    {
+       
+        <div class="col-lg-6">
+            <div class="input-group">
+                <span class="input-group-addon" title="@Resource.SearchUserTitle"><i class="glyphicon glyphicon-question-sign"></i></span>
+                @Html.TextBox("Search", null, new { @class = "form-control", placeholder = Resource.Search, title = Resource.SearchUserTitle })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <button type="submit" class="btn btn-primary btn-block">
+                <span class="glyphicon glyphicon-search"></span>
+                @Resource.Search
+            </button>
+        </div>
+    }
+</div>
+<hr />
+<!-- Countires -->
+<div class="row">
+    <div class="col-lg-12">
+        @foreach (var c in Model)
+        {
+            <a href="@Url.Action("Cities", "World", new { CountryId = c.Id })">
+                <div class="CountryBox text-center">
+                    <img src="@Url.Content(c.Flag)" class="flag img-responsive img-thumbnail" />
+                    <h5 class="text-center label label-success">
+                        @switch(TravelAndTourismWebsite.WebsiteLanguages.SiteLanguages.GetCurrentLanguageCulture())
+                        {
+                            case "en-US":
+                                @c.Name_En
+                                break;
+                            case "ar-SA":
+                                @c.Name_Ar
+                                break;
+                            default:
+                                @c.Name_En
+                                break;
+                        }
+                    </h5>
+                </div>
+            </a>
+        }
+        @Html.PagedListPager(Model, page => Url.Action("Countries", "World", new { page }),
+                        new PagedListRenderOptions()
+                        {
+                            Display = PagedListDisplayMode.IfNeeded,
+                            DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded
+                        })
+    </div>
+</div>
+

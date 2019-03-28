@@ -1,0 +1,31 @@
+﻿@model TravelAndTourismWebsite.Models.RechargeViewModel
+@using TravelAndTourismWebsite.Resources
+
+@{
+    ViewBag.Title = Resource.RechargeCredit;
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+            <img src="~/Images/Credit-Cards-spread.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-credit-card"></span>
+                    @Resource.RechargeCredit
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h3>
+            <span class="glyphicon glyphicon-record"></span>
+            @Resource.RechargeCredit
+        </h3>
+        <hr />
+        @Html.Partial("_RechargeCreditPartial", Model)
+    </div>
+</div>

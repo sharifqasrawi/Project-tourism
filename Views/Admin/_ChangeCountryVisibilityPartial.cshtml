@@ -1,0 +1,25 @@
+﻿@model TravelAndTourismWebsite.Models.Country
+
+@using TravelAndTourismWebsite.Resources
+
+@if (Model.Visible)
+{
+    @Ajax.RawActionLink(string.Format("<span class = \"glyphicon glyphicon-eye-open\"></span> " + Resource.Visible),
+                           "ChangeCountryVisibility", "admin", new { id = Model.Id },
+                                    new AjaxOptions { HttpMethod = "GET", 
+                                                      UpdateTargetId = "divCountryVisibilityStatus_" + Model.Id,
+                                                      InsertionMode = InsertionMode.Replace },
+                            new { @class = "btn btn-success", title = Resource.Hide })
+
+
+}
+else
+{
+    @Ajax.RawActionLink(string.Format("<span class = \"glyphicon glyphicon-eye-close\"></span> " + Resource.Hidden),
+                           "ChangeCountryVisibility", "admin", new { id = Model.Id },
+                                new AjaxOptions { HttpMethod = "GET", 
+                                                  UpdateTargetId = "divCountryVisibilityStatus_" + Model.Id,
+                                                  InsertionMode = InsertionMode.Replace },
+                            new { @class = "btn btn-danger", title = Resource.Show })
+
+}

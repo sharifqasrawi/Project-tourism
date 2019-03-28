@@ -1,0 +1,57 @@
+﻿div.header-contents{
+    left:25px;
+}
+
+#LoginImg{
+    float:right;
+}
+
+#ImageHolder{
+    border:1px dashed black;
+    margin-top:5px;
+    border-radius:5px;
+    background-color:aqua;
+    float:left;
+}
+
+.CityMap{
+    float:right;
+    margin-left:50px;
+    margin-bottom:25px;
+}
+
+article.CityDesc{
+    text-align:justify;
+    font-family:Tahoma;
+    font-size:12pt;
+}
+
+.CityImg{
+    width:250px;
+    height:250px;
+    float:left;
+    margin-right:15px;
+}
+
+.CountryBox{
+    float:left;
+    margin-right:15px;
+}
+
+.CityBox{
+    float:left;
+    margin-right:15px;
+}
+
+
+
+
+a.backToTop {
+	position: fixed;
+	right: 20px;
+	bottom: 20px;
+}
+
+#aboutImg{
+    float:right;
+}

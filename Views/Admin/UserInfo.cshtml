@@ -1,0 +1,178 @@
+﻿@model TravelAndTourismWebsite.Models.ApplicationUser
+@using TravelAndTourismWebsite.Resources
+@{
+    ViewBag.Title = Resource.UserInfo;
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+            <img src="~/Images/services_header.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-info-sign"></span>
+                    @Resource.UserInfo
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h4>
+            <span class="glyphicon glyphicon-exclamation-sign"></span>
+            @Resource.UserInfoFor: [ @Model.FirstName @Model.LastName ]
+        </h4>       
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-lg-6">
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.FirstName)
+                </th>
+                <td>
+                    @Model.FirstName
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.LastName)
+                </th>
+                <td>
+                    @Model.LastName
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    @Resource.Username
+                </th>
+                <td>
+                    @Model.UserName
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.Gender)
+                </th>
+                <td>
+                    @Model.Gender
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.Country)
+                </th>
+                <td>
+                    @Model.Country
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.City)
+                </th>
+                <td>
+                    @Model.City
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.Email)
+                </th>
+                <td>
+                    <a href="@Url.Action("MessageReply", "Admin", new { Email = Model.Email, Subject = "" })">
+                        @Model.Email
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.PhoneNumber)
+                </th>
+                <td>
+                    @Model.PhoneNumber
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-lg-6">
+        <table class="table">
+            <tr>
+                <th>
+                    @Resource.Status
+                </th>
+                <td>
+                    @(Model.Active? Resource.Active : Resource.Blocked)
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.IsAdmin)
+                </th>
+                <td>
+                    @if (Model.IsAdmin)
+                    {
+                        <span class="glyphicon glyphicon-ok"></span>
+                    }
+                    else
+                    {
+                        <span class="glyphicon glyphicon-remove"></span>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.RegistrationDateTime)
+                </th>
+                <td>
+                    @Model.RegistrationDateTime.Value.ToString(new System.Globalization.CultureInfo("en-US"))
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.LastLoginDateTime)
+                </th>
+                <td>
+                    @if(Model.LastLoginDateTime != null)
+                    { 
+                         @:@Model.LastLoginDateTime.Value.ToString(new System.Globalization.CultureInfo("en-US"))
+                    }
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.LoginCount)
+                </th>
+                <td>
+                    @Model.LoginCount
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.PreferredInterfaceLanguage)
+                </th>
+                <td>
+                    @Model.PreferredInterfaceLanguage
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.Credit)
+                </th>
+                <td>
+                    @Model.Credit $
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <img src="~/Images/inf.jpg" class="img-responsive" />
+    </div>
+</div>

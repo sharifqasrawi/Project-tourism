@@ -1,0 +1,79 @@
+﻿@model TravelAndTourismWebsite.Models.Country
+@using TravelAndTourismWebsite.Resources
+@{
+    ViewBag.Title = Resource.EditCountry;
+}
+
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+
+            <img src="~/Images/w2.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-edit"></span>
+                    @Resource.EditCountry
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+<div class="row">
+    <div class="col-lg-6">
+        @using (Html.BeginForm("EditCountry", "Admin", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" } ))
+        {
+            @Html.AntiForgeryToken()
+            <p>
+                <span class="glyphicon glyphicon-info-sign"></span>
+                @Resource.EditCountryInfo
+            </p>
+            <br />
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name_En, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Name_En, new { @class = "form-control", placeholder = Resource.AddCountryPlaceHolder })
+                     @Html.ValidationMessageFor(m => m.Name_En)
+                   </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name_Ar, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Name_Ar, new { @class = "form-control", placeholder = Resource.AddCountryPlaceHolderAr })
+                    @Html.ValidationMessageFor(m => m.Name_Ar)
+                 </div>
+            </div>
+            
+             <div class="form-group">
+                @Html.LabelFor(m => m.Flag, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input type="file" id="uploadFile" name="uploadFile" class="hidden" />
+                    <input type="button" id="btnUploadProductImage" value="@Resource.ChooseImage" class="btn btn-default"
+                           onclick="document.getElementById('uploadFile').click()" />
+                    <div>
+                        <div id="ImageHolder">
+                        </div>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Flag)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button type="submit" class="btn btn-success">
+                        <span class="glyphicon glyphicon-floppy-saved"></span>
+                        @Resource.Save
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-lg-6">
+        <img src="@Url.Content(Model.Flag)" class="img-thumbnail" width="250" />
+    </div>
+</div>
+
+

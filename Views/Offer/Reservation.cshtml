@@ -1,0 +1,326 @@
+﻿@model TravelAndTourismWebsite.Models.OfferReservation
+@using TravelAndTourismWebsite.Resources
+@using TravelAndTourismWebsite.WebsiteLanguages
+
+@{
+    ViewBag.Title = Resource.OfferReservation;
+}
+
+<div class="row" id="offerResHeader">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+            <img src="~/Images/offerHeader.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-list"></span>
+                    @Resource.OfferReservation
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <h3 class="text-center">
+            <span class="glyphicon glyphicon-barcode"></span>
+            @Resource.ReservationNum:
+            @Model.Id
+        </h3>
+        <hr />
+        <table class="table customTable1">
+            <caption class="text-center">
+                <h4>
+                    @Resource.OfferDetails
+                </h4>
+            </caption>
+            <tr>
+                <th>
+                    @Resource.OfferNumber
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Customer)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Offer.CustomersCount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Offer.FlightReservations[0].Flight.SourceCity.Country.Name_En)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Offer.FlightReservations[0].Flight.SourceCity.Name_En)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Offer.Duration)
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    @Model.Offer.Id
+                </td>
+                <td>
+                    @Model.Customer.FirstName @Model.Customer.LastName
+                </td>
+                <td>
+                    @Model.Offer.CustomersCount
+                </td>
+                <td>
+                    @switch(SiteLanguages.GetCurrentLanguageCulture())
+                    {
+                        case "en-US":
+                            @Model.Offer.FlightReservations[0].Flight.SourceCity.Country.Name_En
+                            break;
+                        case "ar-SA":
+                            @Model.Offer.FlightReservations[0].Flight.SourceCity.Country.Name_Ar
+                            break;
+                            
+                        default:
+                        @Model.Offer.FlightReservations[0].Flight.SourceCity.Country.Name_En
+                            break;
+                    }
+                    
+                </td>
+                <td>
+                    @switch (SiteLanguages.GetCurrentLanguageCulture())
+                    {
+                        case "en-US":
+                             @Model.Offer.FlightReservations[0].Flight.SourceCity.Name_En
+                            break;
+                        case "ar-SA":
+                             @Model.Offer.FlightReservations[0].Flight.SourceCity.Name_Ar
+                            break;
+
+                        default:
+                             @Model.Offer.FlightReservations[0].Flight.SourceCity.Name_En
+                            break;
+                    }
+                   
+                </td>
+                <td>
+                    @Model.Offer.Duration @Resource.Days
+                </td>
+            </tr>
+        </table> 
+
+        <table class="table customTable1">
+            <caption class="text-center">
+                <h4>
+                    @Resource.GoingFlight
+                </h4>
+            </caption>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.Offer.FlightReservations[0].Flight.SourceCity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Offer.FlightReservations[0].Flight.DestinationCity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Offer.FlightReservations[0].Flight.Airline)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Offer.FlightReservations[0].Flight.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Offer.FlightReservations[0].Flight.Time)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Offer.FlightReservations[0].FlightClass)
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    @switch (SiteLanguages.GetCurrentLanguageCulture())
+                    {
+                        case "en-US":
+                             @Model.Offer.FlightReservations[0].Flight.SourceCity.Name_En
+                            break;
+                        case "ar-SA":
+                         @Model.Offer.FlightReservations[0].Flight.SourceCity.Name_Ar
+                            break;
+
+                        default:
+                         @Model.Offer.FlightReservations[0].Flight.SourceCity.Name_En
+                            break;
+                    }
+                   
+                </td>
+                <td>
+                    @switch (SiteLanguages.GetCurrentLanguageCulture())
+                    {
+                        case "en-US":
+                            @Model.Offer.FlightReservations[0].Flight.DestinationCity.Name_En
+                            break;
+                        case "ar-SA":
+                            @Model.Offer.FlightReservations[0].Flight.DestinationCity.Name_Ar
+                            break;
+
+                        default:
+                            @Model.Offer.FlightReservations[0].Flight.DestinationCity.Name_En
+                            break;
+                    }
+                    
+                </td>
+                <td>
+                    @Model.Offer.FlightReservations[0].Flight.Airline
+                </td>
+                <td>
+                    @Model.Offer.FlightReservations[0].Flight.DisplayDate
+                </td>
+                <td>
+                    @Model.Offer.FlightReservations[0].Flight.Time
+                </td>
+                <td>
+                    @(Model.Offer.FlightReservations[0].FlightClass == "FirstClass"? Resource.FirstClass : Resource.EconomyClass)
+                </td>
+            </tr>
+        </table>
+
+        <table class="table customTable1">
+            <caption class="text-center">
+                <h4>
+                    @Resource.ReturnFlight
+                </h4>
+            </caption>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.Offer.FlightBackReservations[0].Flight.SourceCity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Offer.FlightBackReservations[0].Flight.DestinationCity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Offer.FlightBackReservations[0].Flight.Airline)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Offer.FlightBackReservations[0].Flight.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Offer.FlightBackReservations[0].Flight.Time)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Offer.FlightBackReservations[0].FlightClass)
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    @switch (SiteLanguages.GetCurrentLanguageCulture())
+                    {
+                        case "en-US":
+                          @Model.Offer.FlightBackReservations[0].Flight.SourceCity.Name_En
+                            break;
+                        case "ar-SA":
+                      @Model.Offer.FlightBackReservations[0].Flight.SourceCity.Name_Ar
+                            break;
+
+                        default:
+                       @Model.Offer.FlightBackReservations[0].Flight.SourceCity.Name_En
+                            break;
+                    }
+                    
+                </td>
+                <td>
+                    @switch (SiteLanguages.GetCurrentLanguageCulture())
+                    {
+                        case "en-US":
+                            @Model.Offer.FlightBackReservations[0].Flight.DestinationCity.Name_En
+                            break;
+                        case "ar-SA":
+                        @Model.Offer.FlightBackReservations[0].Flight.DestinationCity.Name_Ar
+                            break;
+
+                        default:
+                        @Model.Offer.FlightBackReservations[0].Flight.DestinationCity.Name_En
+                            break;
+                    }
+                    
+                </td>
+                <td>
+                    @Model.Offer.FlightBackReservations[0].Flight.Airline
+                </td>
+                <td>
+                    @Model.Offer.FlightBackReservations[0].Flight.DisplayDate
+                </td>
+                <td>
+                    @Model.Offer.FlightBackReservations[0].Flight.Time
+                </td>
+                <td>
+                    @(Model.Offer.FlightBackReservations[0].FlightClass == "FirstClass"? Resource.FirstClass : Resource.EconomyClass)
+                </td>
+            </tr>
+        </table>
+
+
+        <table class="table customTable1">
+            <caption class="text-center">
+                <h4>
+                    @Resource.Hotel
+                </h4>
+            </caption>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.Offer.HotelReservations[0].Room.Hotel.Name_En)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Offer.HotelReservations[0].Room.Hotel.PhoneNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Offer.HotelReservations[0].Check_In_Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Offer.HotelReservations[0].Check_Out_Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Offer.HotelReservations[0].Room.Room.Type)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Offer.HotelReservations[0].Room.Room.Cust_Count)
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    @switch (SiteLanguages.GetCurrentLanguageCulture())
+                    {
+                        case "en-US":
+                            @Model.Offer.HotelReservations[0].Room.Hotel.Name_En
+                            break;
+                        case "ar-SA":
+                        @Model.Offer.HotelReservations[0].Room.Hotel.Name_Ar
+                            break;
+
+                        default:
+                        @Model.Offer.HotelReservations[0].Room.Hotel.Name_En
+                            break;
+                    }
+                    
+                </td>
+                <td>
+                    @Model.Offer.HotelReservations[0].Room.Hotel.PhoneNumber
+                </td>
+                <td>
+                    @Model.Offer.HotelReservations[0].DisplayCheck_In_Date
+                </td>
+                <td>
+                    @Model.Offer.HotelReservations[0].DisplayCheck_Out_Date
+                </td>
+                <td>
+                    @(Model.Offer.HotelReservations[0].Room.Room.Type == "Room"? Resource.Room : Resource.Sweet)
+                </td>
+                <td>
+                    @Model.Offer.HotelReservations[0].Room.Room.Cust_Count
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<br />
+<div class="row" id="prntBtn">
+    <div class="col-lg-12">
+        <a href="#" class="btn btn-block btn-primary btn-lg" onclick="window.print();">
+            <span class="glyphicon glyphicon-print">
+            </span>
+            @Resource.Print
+        </a>
+    </div>
+</div>

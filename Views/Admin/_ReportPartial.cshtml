@@ -1,0 +1,100 @@
+﻿@model IEnumerable<TravelAndTourismWebsite.Models.HotelReservation>
+@using TravelAndTourismWebsite.Resources
+
+<div class="table-responsive">
+    <table class="table customTable1">
+        <caption class="text-center">
+            <h3>
+                @Resource.HotelDetails
+            </h3>
+        </caption>
+        <thead>
+            <tr>
+                <th>
+                    @Resource.SweetsCount
+                </th>
+                <th>
+                    @Resource.RoomsCount
+                </th>
+                <th>
+                    @Resource.ReservationsCount
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @ViewBag.SweetsCount
+                </td>
+                <td>
+                    @ViewBag.RoomsCount
+                </td>
+                <td>
+                    @Model.Count()
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<div class="table-responsive">
+    <table class="table customTable1">
+        <caption class="text-center">
+            <h3>
+                @Resource.Reservations2
+            </h3>
+        </caption>
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.First().Guest.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.First().Guest.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.First().Check_In_Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.First().Check_Out_Date)
+                </th>
+                <th>
+                    @Resource.Options
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var h in Model)
+            {
+                <tr>
+                    <td>
+                        @h.Id
+                    </td>
+                    <td>
+                        @h.Guest.FirstName
+                    </td>
+                    <td>
+                        @h.Guest.LastName
+                    </td>
+                    <td>
+                        @h.DisplayCheck_In_Date
+                    </td>
+                    <td>
+                        @h.DisplayCheck_Out_Date
+                    </td>
+                    <td>
+                        <a href="@Url.Action("CancelHotelReservation", "Admin", new { Id = h.Id, uid = h.Guest.Id })" class="btn btn-sm btn-danger"
+                            onclick="return confirm('@Resource.CancelReservation ?')">
+                            <span class="glyphicon glyphicon-remove-circle"></span>
+                            @Resource.CancelReservation
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

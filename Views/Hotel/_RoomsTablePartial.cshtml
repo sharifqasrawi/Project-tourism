@@ -1,0 +1,106 @@
+﻿@using TravelAndTourismWebsite.Models
+@model Hotel
+@using TravelAndTourismWebsite.Resources
+@using TravelAndTourismWebsite.WebsiteLanguages
+
+@if (Model.HotelRooms.Count == 0)
+{
+    <h3 class="text-center alert alert-danger">
+        @Resource.NoRecordsFound
+    </h3>
+}
+else
+{
+    <table class="table customTable1">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.HotelRooms.First().Room.Type)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.HotelRooms.First().Room.Cust_Count)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.HotelRooms.First().Room.Details_En)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.HotelRooms.First().NightPrice)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model.HotelRooms.Where(x => x.Room.IsAvailable == true).ToList()) 
+            {
+                <tr>
+                    <td>
+                        @(r.Room.Type == "Room" ? Resource.Room : Resource.Sweet)
+                    </td>
+                    <td>
+                        @r.Room.Cust_Count
+                    </td>
+                    <td>
+                        @switch (SiteLanguages.GetCurrentLanguageCulture())
+                        {
+                            case "en-us":
+                                <p>
+                                    <ul class="">
+                                        @foreach (var line in r.Room.Details_En.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+                                        {
+                                            <li>
+                                                @line
+                                            </li>
+                                        }
+                                    </ul>
+                                </p>
+                                        break;
+                            case "ar-SA":
+                            <p>
+                                <ul class="">
+                                    @foreach (var line in r.Room.Details_Ar.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+                                    {
+                                        <li>
+                                            @line
+                                        </li>
+                                    }
+                                </ul>
+                            </p>
+                                    break;
+                            default:
+                            <p>
+                                <ul class="">
+                                    @foreach (var line in r.Room.Details_En.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+                                    {
+                                        <li>
+                                            @line
+                                        </li>
+                                    }
+                                </ul>
+                            </p>
+                                    break;
+                        }
+                    </td>
+                    <td>
+                        @r.NightPrice $
+                    </td>
+                    <td>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a href="@Url.Action("Book", "Hotel", new { RoomId = r.Id })" class="btn btn-default btn-sm">
+                                <span class="glyphicon glyphicon-check"></span>
+                                @Resource.Book
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="#" data-toggle="modal" data-target="#loginModal" class="btn btn-sm btn-danger">
+                                <span class="glyphicon glyphicon-log-in"></span>
+                                @Resource.Login
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

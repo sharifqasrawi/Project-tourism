@@ -1,0 +1,108 @@
+﻿@model IPagedList<TravelAndTourismWebsite.Models.Offer>
+@using TravelAndTourismWebsite.Resources
+@using TravelAndTourismWebsite.WebsiteLanguages
+@using PagedList
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = Resource.Offers;
+}
+
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+            <img src="~/Images/offerHeader.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-list"></span>
+                    @Resource.Offers
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="table-responsive">
+            <table class="table customTable1">
+                <caption class="caption">
+                    <h3>
+                        @Resource.Offers:
+                    </h3>
+                </caption>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().FlightReservations[0].Flight.DestinationCity.Country.Name_En)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().FlightReservations[0].Flight.DestinationCity.Name_En)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().CustomersCount)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().FlightReservations[0].Flight.Date)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().Count)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().Price)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().NewPrice)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var o in Model)
+                    {
+                        <tr>
+                            <td class="text-center">
+                                <img src="@Url.Content(o.FlightReservations[0].Flight.DestinationCity.Images[0].Path)" class="OfferImg " />
+                            </td>
+                            <td>
+                                @o.FlightReservations[0].Flight.DestinationCity.Country.Name_En
+                            </td>
+                            <td>
+                                @o.FlightReservations[0].Flight.DestinationCity.Name_En
+                            </td>
+                            <td>
+                                @o.CustomersCount
+                            </td>
+                            <td>
+                                @o.FlightReservations[0].Flight.DisplayDate
+                            </td>
+                            <td>
+                                @o.Count
+                            </td>
+                            <td style="text-decoration:line-through">
+                                @o.Price $
+                            </td>
+                            <td>
+                                @o.NewPrice $
+                            </td>
+                            <td>
+                                <a href="@Url.Action("OfferPreview", "Offer", new { Id = o.Id })" class="btn btn-sm btn-primary">
+                                    <span class="glyphicon glyphicon-check"></span>
+                                    @Resource.Book
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @Html.PagedListPager(Model, page => Url.Action("AllOffers", "Offer", new { page }),
+                        new PagedListRenderOptions()
+                        {
+                            Display = PagedListDisplayMode.IfNeeded,
+                            DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded
+                        })
+    </div>
+</div>

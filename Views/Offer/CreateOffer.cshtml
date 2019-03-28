@@ -1,0 +1,414 @@
+﻿@model TravelAndTourismWebsite.Models.Offer
+@using TravelAndTourismWebsite.Models
+@using TravelAndTourismWebsite.Resources
+@using TravelAndTourismWebsite.WebsiteLanguages
+@{
+    ViewBag.Title = Resource.CreateOffer;
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+            <img src="~/Images/offerHeader.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-plus"></span>
+                    @Resource.CreateOffer.
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("CreateOffer", "Offer", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="alert alert-warning text-center">
+                <span class="glyphicon glyphicon-plane"></span>
+                @Resource.Flight
+            </h3>
+            <div class="table-responsive">
+                <table class="table customTable1">
+                    <caption class="caption" style="margin-top:-50px;">
+                        <h3 class="text-center">
+                            @Resource.GoingFlight
+                        </h3>
+                    </caption>
+                    <thead>
+                        <tr>
+                            <th>
+
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.FlightReservations[0].Flight.SourceCity)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.FlightReservations[0].Flight.DestinationCity)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.FlightReservations[0].Flight.DisplayDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.FlightReservations[0].Flight.Time)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.FlightReservations[0].Flight.EcoSeatsCount)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.FlightReservations[0].Flight.FrstSeatsCount)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.FlightReservations[0].Flight.EconomyTicketPrice)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.FlightReservations[0].Flight.FirstClassTicketPrice)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Flight f in ViewBag.Flights)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="radio" name="SelectedFlight" value="@f.ID" />
+                                </td>
+                                <td>
+                                    @switch(SiteLanguages.GetCurrentLanguageCulture())
+                                    {
+                                        case "en-US":
+                                            @f.SourceCity.Name_En
+                                            break;
+                                        case "ar-SA":
+                                            @f.SourceCity.Name_Ar
+                                            break;
+                                        default:
+                                            @f.SourceCity.Name_En
+                                            break;
+                                    }
+                                </td>
+                                <td>
+                                    @switch (SiteLanguages.GetCurrentLanguageCulture())
+                                    {
+                                        case "en-US":
+                                            @f.DestinationCity.Name_En
+                                            break;
+                                        case "ar-SA":
+                                            @f.DestinationCity.Name_Ar
+                                            break;
+                                        default:
+                                            @f.DestinationCity.Name_En
+                                            break;
+                                    }
+                                </td>
+                                <td>
+                                    @f.DisplayDate
+                                </td>
+                                <td>
+                                    @f.Time
+                                </td>
+                                <td>
+                                    @f.EcoSeatsCount
+                                </td>
+                                <td>
+                                    @f.FrstSeatsCount
+                                </td>
+                                <td>
+                                    @f.EconomyTicketPrice $
+                                </td>
+                                <td>
+                                    @f.FirstClassTicketPrice $
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-responsive">
+                <table class="table customTable1">
+                    <caption class="caption" style="margin-top:-50px;">
+                        <h3 class="text-center">
+                            @Resource.ReturnFlight
+                        </h3>
+                    </caption>
+                    <thead>
+                        <tr>
+                            <th>
+
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.FlightReservations[0].Flight.SourceCity)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.FlightReservations[0].Flight.DestinationCity)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.FlightReservations[0].Flight.DisplayDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.FlightReservations[0].Flight.Time)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.FlightReservations[0].Flight.EcoSeatsCount)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.FlightReservations[0].Flight.FrstSeatsCount)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.FlightReservations[0].Flight.EconomyTicketPrice)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.FlightReservations[0].Flight.FirstClassTicketPrice)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Flight f in ViewBag.FlightsBack)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="radio" name="SelectedFlightBack" value="@f.ID" />
+                                </td>
+                                <td>
+                                    @switch (SiteLanguages.GetCurrentLanguageCulture())
+                                    {
+                                        case "en-US":
+                                            @f.SourceCity.Name_En
+                                            break;
+                                        case "ar-SA":
+                                        @f.SourceCity.Name_Ar
+                                            break;
+                                        default:
+                                        @f.SourceCity.Name_En
+                                            break;
+                                    }
+                                </td>
+                                <td>
+                                    @switch (SiteLanguages.GetCurrentLanguageCulture())
+                                    {
+                                        case "en-US":
+                                            @f.DestinationCity.Name_En
+                                            break;
+                                        case "ar-SA":
+                                        @f.DestinationCity.Name_Ar
+                                            break;
+                                        default:
+                                        @f.DestinationCity.Name_En
+                                            break;
+                                    }
+                                </td>
+                                <td>
+                                    @f.DisplayDate
+                                </td>
+                                <td>
+                                    @f.Time
+                                </td>
+                                <td>
+                                    @f.EcoSeatsCount
+                                </td>
+                                <td>
+                                    @f.FrstSeatsCount
+                                </td>
+                                <td>
+                                    @f.EconomyTicketPrice $
+                                </td>
+                                <td>
+                                    @f.FirstClassTicketPrice $
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.FlightReservations[0].Seats, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.FlightReservations[0].Seats, new { @class = "form-control", placeholder = Resource.SeatsPH })
+                    @Html.ValidationMessageFor(m => m.FlightReservations[0].Seats)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.FlightReservations[0].FlightClass, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("FlightClass", new List<SelectListItem>
+                   {
+                       new SelectListItem{
+                            Text = Resource.FirstClass,
+                            Value = "FirstClass"
+                        },
+                        new SelectListItem{
+                            Text = Resource.EconomyClass,
+                            Value = "Economy"
+                        }
+                   }, Resource.SelectClass, new { @class = "form-control dropDownList" })
+                    @Html.ValidationMessageFor(m => m.FlightReservations[0].FlightClass)
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="alert alert-success text-center">
+                <span class="glyphicon glyphicon-lamp"></span>
+                @Resource.HotelRoom
+            </h3>
+            <div class="table-responsive">
+                <table class="table customTable1">
+                    <caption class="caption" style="margin-top:-50px;">
+                        <h3 class="text-center">
+                            @Resource.HotelsList
+                        </h3>
+                    </caption>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.HotelReservations[0].Room.Hotel.Name_En)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.HotelReservations[0].Room.Hotel.City.Country.Name_En)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.HotelReservations[0].Room.Hotel.City.Name_En)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.HotelReservations[0].Room.Room.Type)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.HotelReservations[0].Room.Room.Cust_Count)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.HotelReservations[0].Room.NightPrice)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (HotelRoom r in ViewBag.Hotels)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="radio" name="SelectedHotelRoom" value="@r.Id" />
+                                </td>
+                                <td>
+                                    @switch (SiteLanguages.GetCurrentLanguageCulture())
+                                    {
+                                        case "en-US":
+                                            @r.Hotel.Name_En
+                                            break;
+                                        case "ar-SA":
+                                            @r.Hotel.Name_Ar
+                                            break;
+                                        default:
+                                            @r.Hotel.Name_En
+                                            break;
+                                    }
+                                </td>
+                                <td>
+                                    @switch (SiteLanguages.GetCurrentLanguageCulture())
+                                    {
+                                        case "en-US":
+                                            @r.Hotel.City.Country.Name_En
+                                            break;
+                                        case "ar-SA":
+                                            @r.Hotel.City.Country.Name_Ar
+                                            break;
+                                        default:
+                                            @r.Hotel.City.Country.Name_En
+                                            break;
+                                    }
+                                </td>
+                                <td>
+                                   @switch (SiteLanguages.GetCurrentLanguageCulture())
+                                    {
+                                        case "en-US":
+                                            @r.Hotel.City.Name_En
+                                            break;
+                                        case "ar-SA":
+                                            @r.Hotel.City.Name_Ar
+                                            break;
+                                        default:
+                                            @r.Hotel.City.Name_En
+                                            break;
+                                    }
+                                </td>
+                                <td>
+                                    @(r.Room.Type == "Room"?Resource.Room:Resource.Sweet)
+                                </td>
+                                <td>
+                                    @r.Room.Cust_Count
+                                </td>
+                                <td>
+                                    @r.NightPrice $
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <hr />
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="alert alert-success text-center">
+                <span class="glyphicon glyphicon-bookmark"></span>
+                @Resource.Offer:
+            </h3>
+            <div class="form-group">
+                @Html.LabelFor(m => m.CustomersCount, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.CustomersCount, new { @class = "form-control" , placeholder = Resource.CustomersCountPH})
+                    @Html.ValidationMessageFor(m => m.CustomersCount)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Discount, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Discount, new { @class = "form-control", placeholder = Resource.DiscountPH })
+                    @Html.ValidationMessageFor(m => m.Discount)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Count, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Count, new { @class = "form-control", placeholer = Resource.OfferCountPH })
+                    @Html.ValidationMessageFor(m => m.Count)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Details_En, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(m => m.Details_En, new { @class = "form-control", placeholder = Resource.OfferDetailsEnPH })
+                    @Html.ValidationMessageFor(m => m.Details_En)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Details_Ar, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(m => m.Details_Ar, new { @class = "form-control" , placeholder = Resource.OfferDetailsArPH})
+                    @Html.ValidationMessageFor(m => m.Details_Ar)
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-10 col-md-offset-2">
+                    <button type="submit" class="btn btn-success">
+                        <span class="glyphicon glyphicon-save-file"></span>
+                        @Resource.Save 
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+}

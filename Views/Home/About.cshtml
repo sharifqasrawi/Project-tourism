@@ -1,0 +1,75 @@
+﻿@using TravelAndTourismWebsite.Resources
+@{
+    ViewBag.Title = Resource.About;
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="header-wrapper">
+            <img src="~/Images/about_us.png" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-info-sign"></span>
+                    @Resource.About
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="text-center" style="font-family:'Times New Roman';">
+            @Resource.DSH2
+        </h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <h3>
+            <span class="glyphicon glyphicon-info-sign"></span>
+            @Resource.AboutProduct
+        </h3>
+        <p>
+            @Resource.AboutProductP1
+            <ul>
+                <li>
+                    @Resource.AboutProductLi1
+                </li>
+                <li>
+                    @Resource.AboutProductLi2
+                </li>
+                <li>
+                    @Resource.AboutProductLi3
+                </li>
+                <li>
+                    @Resource.AboutProductLi4
+                </li>
+            </ul>
+        </p>
+        <h3>
+            <span class="glyphicon glyphicon-question-sign"></span>
+            @Resource.WhoAreWe
+        </h3>
+        <p>
+            @Resource.WhoAreWeP
+        </p>
+        <h5>
+            <span class="glyphicon glyphicon-envelope"></span>
+            @Resource.ContactDetails2
+        </h5>
+        <p>
+            <ul>
+                <li>
+                   @Resource.Sharif: <a href="mailto:sherifqasrawi@windowslive.com"> sherifqasrawi@windowslive.com</a>
+                </li>
+              
+            </ul>
+        </p>
+       
+    </div>
+    <div class="col-lg-4">
+        <img src="~/Images/informace-modry.png" class="img-responsive" width="250" id="aboutImg" />
+    </div>
+</div>

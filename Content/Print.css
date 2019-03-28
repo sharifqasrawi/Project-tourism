@@ -1,0 +1,27 @@
+﻿body {
+    background-color:white;
+}
+
+#ticketHeader{
+    display:none;
+}
+
+#footer{
+    display:none;
+}
+
+.table{
+    text-align:center;
+}
+
+#prntBtn{
+    display:none;
+}
+
+#hotelHeader{
+    display:none;
+}
+
+#offerResHeader{
+     display:none;
+}

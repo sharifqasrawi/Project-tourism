@@ -1,0 +1,77 @@
+﻿@using Microsoft.AspNet.Identity
+@using TravelAndTourismWebsite.Resources
+
+@{
+    TravelAndTourismWebsite.Models.ApplicationDbContext db = new TravelAndTourismWebsite.Models.ApplicationDbContext();
+    string userCredit = "";
+    if (User.Identity.IsAuthenticated)
+    { 
+        userCredit = db.Users.Find(User.Identity.GetUserId()).Credit + " $";
+    }
+}
+
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = Resource.NavBar }))
+    {
+        @Html.AntiForgeryToken()
+
+    <ul class="nav navbar-nav @Resource.NavBar" style="@Resource.NavLoginStyle:22px;">
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <span class="glyphicon glyphicon-user"></span>
+                @Resource.Welcome @User.Identity.Name
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="@Url.Action("Manage","Account")" >
+                        <span class="glyphicon glyphicon-asterisk"></span>
+                        @Resource.ChangePassword
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("UpdateAccount","Account")">
+                        <span class="glyphicon glyphicon-user">
+                        </span>
+                        @Resource.UpdateAccount
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("RechargeCredit","Account")" title="Recharge">
+                        <span class="glyphicon glyphicon-credit-card">
+                        </span>
+                         @Resource.Credit (@userCredit)
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li>
+
+            <a href="javascript:document.getElementById('logoutForm').submit()">
+                <span class="glyphicon glyphicon-log-out"></span>
+                @Resource.Logout
+            </a>
+        </li>
+    </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav @Resource.NavBar" style="@Resource.NavLoginStyle:20px;">
+
+        <li>
+            <a href="@Url.Action("Register","Account")" id="registerLink">
+                <span class="glyphicon glyphicon-check"></span>
+                @Resource.RegisterBtn
+            </a>
+        </li>
+
+        <li>
+            <a href="#" id="loginLink">
+                <span class="glyphicon glyphicon-log-in"></span>
+                @Resource.Login
+            </a>
+        </li>
+    </ul>
+}

@@ -1,0 +1,158 @@
+﻿@model IPagedList<TravelAndTourismWebsite.Models.Hotel>
+@using PagedList
+@using PagedList.Mvc
+@using TravelAndTourismWebsite.Resources
+@using TravelAndTourismWebsite.WebsiteLanguages
+
+@{
+    ViewBag.Title = Resource.SuggestedHotels;
+}
+
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+            <img src="~/Images/lobby5.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-lamp"></span>
+                    @Resource.SuggestedHotels
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="alert alert-danger text-center">
+            <span class="glyphicon glyphicon-heart"></span>
+            @Resource.ThankYou
+            <span class="glyphicon glyphicon-heart"></span>
+        </h2>
+        <h3>
+            <span class="glyphicon glyphicon-heart"></span>
+            @Resource.wishNiceFlightTo
+            @switch(SiteLanguages.GetCurrentLanguageCulture())
+            {
+                case "en-US":
+                    @:@Model.First().City.Name_En / @Model.First().City.Country.Name_En
+                    break;
+                case "ar-SA":
+                @:@Model.First().City.Name_Ar / @Model.First().City.Country.Name_Ar
+                    break;
+                default:
+                @:@Model.First().City.Name_En / @Model.First().City.Country.Name_En
+                    break;
+            }
+
+        </h3>
+        <a href="@Url.Action("Ticket", "Flight", new { Id = int.Parse(ViewBag.ResId.ToString()) })" class="btn btn-block btn-primary btn-lg">
+            <span class="glyphicon glyphicon-print">
+            </span>
+            @Resource.PrintTicket
+        </a>
+
+        <br />
+        <h4>
+            <span class="glyphicon glyphicon-bed"></span>
+            @Resource.HereAreSomeHotelsIn
+            @switch(SiteLanguages.GetCurrentLanguageCulture())
+            {
+                case "en-US":
+                    @:@Model.First().City.Name_En / @Model.First().City.Country.Name_En
+                    break;
+                case "ar-SA":
+                @:@Model.First().City.Name_Ar / @Model.First().City.Country.Name_Ar
+                    break;
+                default:
+                @:@Model.First().City.Name_En / @Model.First().City.Country.Name_En
+                    break;
+            }
+            @Resource.WeRecommend..
+        </h4>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="table-responsive">
+            <table class="table customTable1">
+                <thead>
+                    <tr>
+                        <th>
+
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().Name_En)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().Stars)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().Website)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().PhoneNumber)
+                        </th>
+
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var h in Model)
+                    {
+                        <tr>
+                            <td>
+                                <img src="@Url.Content(h.Images[0].Path)" class="img-thumbnail HotelImg" />
+                            </td>
+                            <td>
+                                @switch(SiteLanguages.GetCurrentLanguageCulture())
+                                {
+                                    case "en-US":
+                                        @h.Name_En
+                                        break;
+                                    case "ar-SA":
+                                    @h.Name_Ar
+                                        break;
+                                    default:
+                                    @h.Name_En
+                                        break;
+                                }
+                            </td>
+                            <td>
+                                @for (int i = 0; i < h.Stars; i++)
+                                {
+                                    <img src="~/Images/star.png" width="20" />
+                                }
+                            </td>
+                            <td>
+                                <a href="@h.Website" target="_blank">
+                                    @h.Website
+                                </a>
+                            </td>
+                            <td>
+                                @h.PhoneNumber
+                            </td>
+
+                            <td>
+                                <a href="@Url.Action("HotelPreview", "Hotel", new { HotelId = h.Id })" class="btn btn-sm btn-primary">
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                    @Resource.CheckHotel
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @Html.PagedListPager(Model, page => Url.Action("SuggestedHotels", "Hotel", new { page }),
+                        new PagedListRenderOptions()
+                        {
+                            Display = PagedListDisplayMode.IfNeeded,
+                            DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded
+                        })
+    </div>
+</div>

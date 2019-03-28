@@ -1,0 +1,152 @@
+﻿@model IPagedList<TravelAndTourismWebsite.Models.HotelRoom>
+@using PagedList
+@using PagedList.Mvc
+@using TravelAndTourismWebsite.Resources
+@using TravelAndTourismWebsite.WebsiteLanguages
+
+@{
+    ViewBag.Title = Resource.HotelRoomsManagement;
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+            <img src="~/Images/spsa-deluxe-header.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-asterisk"></span>
+                    @Resource.HotelRoomsManagement
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="alert alert-success text-center">
+            <h2>
+                <span class="glyphicon glyphicon-lamp"></span>
+                @Resource.Hotel: @ViewBag.HotelName
+                
+            </h2>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <a href="@Url.Action("AddRoomToHotel", "Hotel", new { HotelId = int.Parse(ViewBag.HotelId.ToString()) })" class="btn btn-default btn-block btn-lg">
+            <span class="glyphicon glyphicon-plus"></span>
+            @Resource.AddRoomToHotel
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h4>
+            <span class="glyphicon glyphicon-bed"></span>
+            @Resource.AvailableRooms:
+        </h4>
+        <div class="table-responsive">
+            <table class="table customTable1">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().Room.Type)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().Room.Cust_Count)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().Room.Details_En)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().NightPrice)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().Count)
+                        </th>
+                        <th>
+                            @Resource.Options
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var r in Model)
+                    {
+                        <tr>
+                            <td>
+                                @(r.Room.Type == "Room"? Resource.Room : Resource.Sweet)
+                            </td>
+                            <td>
+                                @r.Room.Cust_Count
+                            </td>
+                            <td>
+                                @switch (SiteLanguages.GetCurrentLanguageCulture())
+                                {
+                                    case "en-us":
+                                        <p>
+                                            <ul class="">
+                                                @foreach (var line in r.Room.Details_En.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+                                                {
+                                                    <li>
+                                                        @line
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </p>
+                                                break;
+                                    case "ar-SA":
+                                    <p>
+                                        <ul class="">
+                                            @foreach (var line in r.Room.Details_Ar.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+                                            {
+                                                <li>
+                                                    @line
+                                                </li>
+                                            }
+                                        </ul>
+                                    </p>
+                                            break;
+                                    default:
+                                    <p>
+                                        <ul class="">
+                                            @foreach (var line in r.Room.Details_En.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+                                            {
+                                                <li>
+                                                    @line
+                                                </li>
+                                            }
+                                        </ul>
+                                    </p>
+                                            break;
+                                }
+                            </td>
+                            <td>
+                                @r.NightPrice $
+                            </td>
+                            <td>
+                                @r.Count
+                            </td>
+                            <td>
+                                <a href="@Url.Action("EditHotelRoom", "Hotel", new { Id = r.Id })" class="btn btn-sm btn-default" >
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                    @Resource.Edit
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table> 
+        </div>
+        @Html.PagedListPager(Model, page => Url.Action("HotelRoomsManagement", "Hotel", new { page }),
+                        new PagedListRenderOptions()
+                        {
+                            Display = PagedListDisplayMode.IfNeeded,
+                            DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded
+                        })
+    </div>
+</div>

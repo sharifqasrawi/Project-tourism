@@ -1,0 +1,90 @@
+﻿@model List<string>
+@using TravelAndTourismWebsite.Resources
+@{
+    ViewBag.Title = Resource.ManageRoles;
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+            <img src="~/Images/users22.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-asterisk"></span>
+                    @Resource.ManageRoles
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h3 class="alert alert-info text-center">
+            <span class="glyphicon glyphicon-plus"></span>
+            @Resource.Add @Resource.User ( @ViewBag.User.UserName ) @Resource.ToRole:
+        </h3>
+    </div>
+</div>
+
+<div class="row">
+
+    @using (Html.BeginForm("ManageUserRoles_AddToRole", "Admin", new { Id = ViewBag.User.Id }, FormMethod.Post))
+    {
+        <div class="col-lg-6">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-king"></span>
+                </span>
+                @Html.DropDownList("Roles", null, Resource.SelectRole, new { @class = "form-control form-inline dropDownList" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <button class="btn btn-success btn-block" type="submit">
+                @Resource.Add
+                <span class="glyphicon glyphicon-ok"></span>
+            </button>
+        </div>
+
+    }
+
+</div>
+<hr />
+<div class="row">
+    <div class="col-lg-12">
+        <h4 class="text-info">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            @Resource.CurrentUserRoles
+        </h4>
+        <table class="table table-responsive table-striped customTable1">
+            <thead>
+                <tr>
+                    <th>
+                        @Resource.Role
+                    </th>
+                    <th>
+                        @Resource.RemoveFromRole
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var role in Model)
+                {
+                    <tr>
+                        <td>
+                            @role
+                            @Html.Hidden("role", role)
+                        </td>
+                        <td>
+                            <a href="@Url.Action("ManageUserRoles_RemoveFromRole", "Admin", new { Id = ViewBag.User.Id, role = role })" class="btn btn-danger"
+                               onclick="return confirm('@Resource.AreYouSureYouWantTo @Resource.RemoveFromRoleConfirmation')">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>

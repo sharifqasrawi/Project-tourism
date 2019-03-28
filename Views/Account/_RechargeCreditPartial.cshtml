@@ -1,0 +1,98 @@
+﻿@model TravelAndTourismWebsite.Models.RechargeViewModel
+@using TravelAndTourismWebsite.Resources
+
+@{
+    bool success = Convert.ToBoolean(ViewBag.Success);
+}
+<div class="flightsLoaderWrapper">
+    <div id="ajaxLoader" class="text-center flightsLoader">
+        <img src="~/Images/ajax-loader.gif" />
+    </div>
+</div>
+
+<div id="Target">
+    @if (success)
+    {
+        <h2 class="@ViewBag.AlertSuccess text-center">
+            <span class="glyphicon glyphicon-ok"></span>
+            @ViewBag.Message
+        </h2>
+    }
+    else
+    {
+        using (Ajax.BeginForm("RechargeCredit", "Account", new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    UpdateTargetId = "Target",
+                    LoadingElementId = "ajaxLoader",
+                    InsertionMode = InsertionMode.Replace
+                }, new { @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.CurrentCredit, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.CurrentCredit, null, new { @class = "form-control", Readonly = "Readonly" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.CreditCard.CardType, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("CardTypes", null, Resource.SelectCardType, new { @class = "form-control dropDownList", Required = "Required" })
+                    @Html.ValidationMessageFor(m => m.CreditCard.CardType)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.CreditCard.NameOnCard, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.CreditCard.NameOnCard, new { @class = "form-control", placeholder = Resource.NameOnCardPlaceholder })
+                    @Html.ValidationMessageFor(m => m.CreditCard.NameOnCard)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.CreditCard.CardNumber, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.CreditCard.CardNumber, new { @class = "form-control", placeholder = Resource.CardNumberPlaceholder })
+                    @Html.ValidationMessageFor(m => m.CreditCard.CardNumber)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.CreditCard.CardVerificationCode, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.CreditCard.CardVerificationCode, new { @class = "form-control", placeholder = Resource.CardVerificationCodePlaceholder })
+                    @Html.ValidationMessageFor(m => m.CreditCard.CardVerificationCode)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.CreditCard.CardExpirationDate, new { @class = "control-label col-md-2" })
+                <div class="col-md-10 col-sm-10">
+                    <div class="form-inline">
+                        @Html.DropDownList("Month", null, Resource.Month, new { @class = "form-control dropDownList", required = "required" })
+                        @Html.DropDownList("Year", null, Resource.Year, new { @class = "form-control dropDownList", required = "required" })
+                        <br />
+                        @Html.ValidationMessageFor(m => m.CreditCard.CardExpirationDate)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" >
+                @Html.LabelFor(m => m.NewCredit, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.NewCredit, null, new { @class = "form-control", min = "0" })
+                    @Html.ValidationMessageFor(m => m.NewCredit)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-10 col-md-offset-2">
+                    <button type="submit" class="btn btn-success">
+                        <span class="glyphicon glyphicon-ok-circle"></span>
+                        @Resource.Charge
+                    </button>
+                </div>
+            </div>
+        }
+    }
+</div>

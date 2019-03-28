@@ -1,0 +1,146 @@
+﻿@using TravelAndTourismWebsite.Resources
+@using PagedList
+@using PagedList.Mvc
+@using TravelAndTourismWebsite.WebsiteLanguages
+@model IPagedList<TravelAndTourismWebsite.Models.Country>
+
+@{
+    ViewBag.Title = Resource.Countries;
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+            <img src="~/Images/w2.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-globe"></span>
+                    @Resource.Countries
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-lg-12">
+        <a href="@Url.Action("AddNewCountry","Admin")" class="btn btn-lg btn-default btn-block">
+            <span class="glyphicon glyphicon-plus-sign"></span>
+            @Resource.AddCountry
+        </a>
+    </div>
+</div>
+<br />
+<div class="row">
+
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <h4>
+                    <span class="glyphicon glyphicon-search">
+                    </span>
+                    @Resource.Search
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            @using (Html.BeginForm("Countries", "Admin", FormMethod.Get, new { @class = "form-horizontal" }))
+            {
+
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </span>
+                        @Html.TextBox("Search", null, new { @class = "form-control", placeholer = Resource.CountryPlaceHolder })
+                    </div>
+
+                </div>
+                <div class="col-lg-6">
+                    <button type="submit" class="btn btn-block btn-default">
+                        <span class="glyphicon glyphicon-search"></span>
+                        @Resource.Search
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="table-responsive">
+            <table class="table customTable1">
+                <caption class="caption">
+                    <h4 class="text-center">
+                        @Resource.CountriesList
+                    </h4>
+                </caption>
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().Name_En)
+                        </th>
+                        <th colspan="4" class="text-center">
+                            @Resource.Options
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var c in Model)
+                    {
+                        <tr>
+                            <td>
+                                @switch (SiteLanguages.GetCurrentLanguageCulture())
+                                {
+                                    case "en-US":
+                                        @c.Name_En
+                                        break;
+                                    case "ar-SA":
+                                    @c.Name_Ar
+                                        break;
+                                    default:
+                                    @c.Name_En
+                                        break;
+                                }
+                            </td>
+                            <td>
+                                <a href="@Url.Action("EditCountry", "Admin", new { id = c.Id })" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                    @Resource.Edit
+                                </a>
+
+                            </td>
+                            <td>
+                                <a href="@Url.Action("DeleteCountry", "Admin", new { id = c.Id })" class="btn btn-danger  btn-sm"
+                                   onclick="return confirm('@Resource.AreYouSureYouWantTo @Resource.DeleteCountry ? ');">
+                                    <span class="glyphicon glyphicon-erase"></span>
+                                    @Resource.Delete
+                                </a>
+                            </td>
+                            <td>
+                                <div id="divCountryVisibilityStatus_@c.Id">
+                                    @Html.Partial("_ChangeCountryVisibilityPartial", c)
+                                </div>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Cities", "Admin", new { Country = c.Id })" class="btn btn-info  btn-sm">
+                                    <span class="glyphicon glyphicon-globe"></span>
+                                    @Resource.Cities
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @Html.PagedListPager(Model, page => Url.Action("Countries", "Admin", new { page }),
+                        new PagedListRenderOptions()
+                        {
+                            Display = PagedListDisplayMode.IfNeeded,
+                            DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded
+                        })
+    </div>
+</div>

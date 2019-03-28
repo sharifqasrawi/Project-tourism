@@ -1,0 +1,244 @@
+﻿@model TravelAndTourismWebsite.Models.CityPreviewViewModel
+@using TravelAndTourismWebsite.Resources
+@using TravelAndTourismWebsite.WebsiteLanguages
+
+@{
+    ViewBag.Title = Resource.CityPreview;
+
+
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+            <img src="~/Images/w2.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-globe"></span>
+                    @Resource.City
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="well text-center">
+            <h2>
+                <span class="glyphicon glyphicon-map-marker"></span>
+                @switch (SiteLanguages.GetCurrentLanguageCulture())
+                {
+                    case "en-us":
+                        @Model.City.Name_En
+                        break;
+                    case "ar-SA":
+                    @Model.City.Name_Ar
+                        break;
+                    default:
+                    @Model.City.Name_En
+                        break;
+                }
+            </h2>
+        </div>
+        <div class="table-responsive img-thumbnail CityMap">
+            <iframe src="@Url.Content(Model.City.CityLocation)" width="400" height="300" frameborder="0" style="border:0" class=""></iframe>
+        </div>
+        <article class="CityDesc" style="float:none;">
+            <h4>
+                <span class="glyphicon glyphicon-info-sign"></span>
+                @Resource.AboutCity:
+            </h4>
+            @switch (SiteLanguages.GetCurrentLanguageCulture())
+            {
+                case "en-us":
+                    @Model.City.Description_En
+                    break;
+                case "ar-SA":
+                @Model.City.Description_Ar
+                    break;
+                default:
+                @Model.City.Description_En
+                    break;
+            }
+
+        </article>
+
+
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-lg-12">
+        <h4 class="">
+            <span class="glyphicon glyphicon-picture"></span>
+            @Html.DisplayNameFor(m => m.City.Images)
+        </h4>
+        <br />
+        <button type="button" id="HotelImagesBtn" title="@Resource.ShowHide" class="btn btn-primary btn-block AnimatedBtn">
+            <b class="glyphicon glyphicon-picture"></b>
+            @Resource.Images
+            <span></span>
+        </button>
+        <div id ="HotelImagesPanel">
+            @foreach (var p in Model.City.Images)
+            {
+                <img src="@Url.Content(p.Path)" class="img-thumbnail CityImg" id="CityImg" onclick="openImg('@Url.Content(p.Path)')" />
+            }
+        </div>
+    </div>
+</div>
+
+<hr />
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <h4>
+            <span class="glyphicon glyphicon-plane"></span>
+           @Resource.BookFlightTo 
+            @switch (SiteLanguages.GetCurrentLanguageCulture())
+            {
+                case "en-us":
+                    @Model.City.Name_En
+                    break;
+                case "ar-SA":
+                @Model.City.Name_Ar
+                    break;
+                default:
+                @Model.City.Name_En
+                    break;
+            }
+        </h4>
+        <br />
+        <div class="row">
+            @using (Ajax.BeginForm("GetFlightsToCity", "World",
+                new AjaxOptions
+                {
+                    HttpMethod = "GET",
+                    UpdateTargetId = "CityFlights",
+                    LoadingElementId = "ajaxLoader",
+                    InsertionMode = InsertionMode.Replace
+
+                }))
+            {
+                <div class="col-lg-4">
+                    @Html.Hidden("Cityid", Model.City.Id)
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-filter"></i></span>
+                        @Html.DropDownList("SourceCity", null, Resource.SelectSourceCity, new { @class = "form-control dropDownList" })
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-plane"></i></span>
+                        @Html.DropDownList("Airline", null, Resource.Airline + " ("+ Resource.All +")", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <button type="submit" class="btn btn-primary btn-block ">
+                        <span class="glyphicon glyphicon-search"></span>
+                        @Resource.Search
+                    </button>
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="flightsLoaderWrapper">
+                    <div id="ajaxLoader" class="text-center flightsLoader">
+                        <img src="~/Images/ajax-loader.gif" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="CityFlights">
+            @Html.Partial("_CityFlightsPartial", Model)
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-lg-12">
+        <h4>
+            <span class="glyphicon glyphicon-lamp"></span>
+            @Resource.FindHotelIn 
+            @switch (SiteLanguages.GetCurrentLanguageCulture())
+            {
+                case "en-us":
+                    @Model.City.Name_En
+                    break;
+                case "ar-SA":
+                @Model.City.Name_Ar
+                    break;
+                default:
+                @Model.City.Name_En
+                    break;
+            }
+        </h4>
+        
+        <div class="row">
+            @using (Ajax.BeginForm("GetCityHotels", "World",
+                new AjaxOptions
+                {
+                    HttpMethod = "GET",
+                    UpdateTargetId = "CityHotels",
+                    LoadingElementId = "ajaxLoader2",
+                    InsertionMode = InsertionMode.Replace
+
+                }))
+            {
+                @Html.Hidden("Cityid", Model.City.Id)
+                <div class="col-lg-4">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-filter"></i></span>
+                        @Html.TextBox("HotelName", null, new { @class = "form-control", placeholder = Resource.HotelName })
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-star"></i></span>
+                        @Html.DropDownList("Stars", null, Resource.Stars, new { @class = "form-control dropDownList" })
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <button type="submit" class="btn btn-primary btn-block ">
+                        <span class="glyphicon glyphicon-search"></span>
+                        @Resource.Search
+                    </button>
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="flightsLoaderWrapper">
+                    <div id="ajaxLoader2" class="text-center flightsLoader">
+                        <img src="~/Images/ajax-loader.gif" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive" id="CityHotels">
+            @Html.Partial("_CityHotelsPartial", Model)
+        </div>
+    </div>
+</div>
+
+
+<!-- Image Modal -->
+<div id="ImgModal" class="modal CityImgmodal" style="z-index:1000;">
+
+    <!-- The Close Button -->
+    <span class="close" onclick="document.getElementById('ImgModal').style.display = 'none'">&times;</span>
+
+    <!-- Modal Content (The Image) -->
+    <img class="modal-content" id="img">
+
+    <!-- Modal Caption (Image Text) -->
+    <div id="caption"></div>
+</div>
+

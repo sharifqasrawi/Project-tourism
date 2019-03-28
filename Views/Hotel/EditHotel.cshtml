@@ -1,0 +1,170 @@
+﻿@model TravelAndTourismWebsite.Models.Hotel
+@using TravelAndTourismWebsite.Resources
+
+@{
+    ViewBag.Title = Resource.EditHotel;
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+            <img src="~/Images/header-01.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-edit"></span>
+                    @Resource.EditHotel
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+<div class="row">
+    <div class="col-lg-9">
+        @using (Html.BeginForm("EditHotel", "Hotel", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <h4>
+                <span class="glyphicon glyphicon-list-alt"></span>
+                @Resource.EditHotel
+            </h4>
+
+            <br />
+            <div class="form-group">
+                @Html.Label(Resource.Country, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Country", null, Resource.SelectCountry, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.City.Name_En, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("city", null, Resource.SelectCity, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Location)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name_En, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Name_En, new { @class = "form-control", placeholder = Resource.HotelNameEnPH })
+                    @Html.ValidationMessageFor(m => m.Name_En)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name_Ar, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Name_Ar, new { @class = "form-control", placeholder = Resource.HotelNameArPH })
+                    @Html.ValidationMessageFor(m => m.Name_Ar)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Stars, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Stars, new { @class = "form-control", placeholder = Resource.HotelStarsPH })
+                    @Html.ValidationMessageFor(m => m.Stars)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Details_En, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(m => m.Details_En, new { @class = "form-control", placeholder = Resource.HotelDetailsEnPh })
+                    @Html.ValidationMessageFor(m => m.Details_En)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Details_Ar, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(m => m.Details_Ar, new { @class = "form-control", placeholder = Resource.HotelDetailsArPH })
+                    @Html.ValidationMessageFor(m => m.Details_Ar)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Website, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Website, new { @class = "form-control", placeholder = Resource.HotelWebsitePH })
+                    @Html.ValidationMessageFor(m => m.Website)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = Resource.HotelEmailPH })
+                    @Html.ValidationMessageFor(m => m.Email)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.PhoneNumber, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", placeholder = Resource.HotelNumberPH })
+                    @Html.ValidationMessageFor(m => m.PhoneNumber)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Location, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Location, new { @class = "form-control", placeholder = Resource.HotelLocationPH })
+                    @Html.ValidationMessageFor(m => m.Location)
+                </div>
+            </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.GpsX, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.GpsX, new { @class = "form-control", placeholder = Resource.GpsX })
+            @Html.ValidationMessageFor(m => m.GpsX)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.GpsY, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.GpsY, new { @class = "form-control", placeholder = Resource.GpsY })
+            @Html.ValidationMessageFor(m => m.GpsY)
+        </div>
+    </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Images, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input type="file" id="uploadFile" name="uploadFile" class="hidden" multiple="multiple" />
+                    <input type="button" id="btnUploadProductImage" value="@Resource.UploadFile" class="btn btn-default"
+                           onclick="document.getElementById('uploadFile').click()" />
+                    <div>
+                        <div id="ImageHolder">
+                        </div>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Images)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-10 col-md-offset-2">
+                    <button type="submit" class="btn btn-success">
+                        <span class="glyphicon glyphicon-floppy-save"></span>
+                        @Resource.Save
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-lg-3">
+        @foreach (var img in Model.Images)
+        {
+            <img src="@Url.Content(img.Path)" class="img-thumbnail" width="250" />
+            <br />
+        }
+    </div>
+</div>

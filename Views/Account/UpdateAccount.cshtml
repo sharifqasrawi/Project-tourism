@@ -1,0 +1,129 @@
+﻿@model TravelAndTourismWebsite.Models.UpdateAccountViewModel
+@using TravelAndTourismWebsite.Resources
+
+@{
+    ViewBag.Title = Resource.UpdateAccount;
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+            <img src="~/Images/acMng2.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-user"></span>
+                    @Resource.UpdateAccount
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h3 class="@ViewBag.Alert text-center">
+            @ViewBag.Message
+        </h3>
+        <h4>
+            <span class="glyphicon glyphicon-info-sign"></span>
+            @Resource.UpdateAccountInfo
+        </h4>
+        <hr />
+        @using (Html.BeginForm("UpdateAccount", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+            
+              <div class="form-group">
+                @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = Resource.FirstNamePlaceHolder })
+                    @Html.ValidationMessageFor(m => m.FirstName)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = Resource.LastNamePlaceHolder })
+                    @Html.ValidationMessageFor(m => m.LastName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Gender, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @if (Model.Gender == "Male")
+                    {
+                        <label class="radio-inline">
+                            <input type="radio" name="Gender" value="Male" checked="checked">
+                            &nbsp;&nbsp;&nbsp; @Resource.Male
+                        </label>
+                    }
+                    else
+                    {
+                        <label class="radio-inline">
+                            <input type="radio" name="Gender" value="Male">
+                            &nbsp;&nbsp;&nbsp; @Resource.Male
+                        </label>
+                    }
+                    @if (Model.Gender == "Female")
+                    {
+                        <label class="radio-inline">
+                            <input type="radio" name="Gender" value="Female" checked="checked">
+                            &nbsp;&nbsp;&nbsp; @Resource.Female
+                        </label>
+                    }
+                    else
+                    {
+                        <label class="radio-inline">
+                            <input type="radio" name="Gender" value="Female">
+                            &nbsp;&nbsp;&nbsp; @Resource.Female
+                        </label>
+                    }
+
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Gender)
+                </div>
+
+
+
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = Resource.EmailPlaceHolder })
+                    @Html.ValidationMessageFor(m => m.Email)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", placeholder = Resource.PhNumberPlaceHolder })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Country, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Country", null, Resource.CountryPlaceHolder, new { @class = "form-control dropDownList" })
+                    @Html.ValidationMessageFor(m => m.Country)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.City, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DropDownList("city", null, Resource.CountryPlaceHolder, new { @class = "form-control dropDownList" })
+                    @Html.ValidationMessageFor(m => m.City)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" class="btn btn-success" value="@Resource.Save" />
+                </div>
+            </div>
+        }
+    </div>
+</div>

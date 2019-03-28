@@ -1,0 +1,181 @@
+﻿@model TravelAndTourismWebsite.Models.FlightReservation
+@using TravelAndTourismWebsite.WebsiteLanguages
+@using TravelAndTourismWebsite.Resources
+
+@{
+    ViewBag.Title = Resource.Bookflight;
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+            <img src="~/Images/plymouth-flights-header.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-check"></span> 
+                   @Resource.Bookflight
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div>
+            <h4 class="@ViewBag.Alert text-center">
+                @ViewBag.Message
+            </h4>
+        </div>
+        <h4>
+            <span class="glyphicon glyphicon-check"></span>
+
+            @Resource.BookFlightInfo
+        </h4>
+        <div class="table-responsive">
+            <table class="table customTable1">
+
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(m => m.Flight.SourceCity)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.Flight.DestinationCity)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.Flight.Airline)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.Flight.Date)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.Flight.Time)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.Flight.FlightDuration)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.Flight.EcoSeatsCount)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.Flight.FrstSeatsCount)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.Flight.EconomyTicketPrice)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.Flight.FirstClassTicketPrice)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            @switch(SiteLanguages.GetCurrentLanguageCulture())
+                            {
+                                case "en-us":
+                                    @ViewBag.Flight.SourceCity.Name_En
+                                    break;
+                                case "ar-SA":
+                                    @ViewBag.Flight.SourceCity.Name_Ar
+                                    break;
+                                default:
+                                    @ViewBag.Flight.SourceCity.Name_En
+                                    break;
+                            }
+                           
+                        </td>
+                        <td>
+                            @switch (SiteLanguages.GetCurrentLanguageCulture())
+                            {
+                                case "en-us":
+                                    @ViewBag.Flight.DestinationCity.Name_En
+                                    break;
+                                case "ar-SA":
+                                @ViewBag.Flight.DestinationCity.Name_Ar
+                                    break;
+                                default:
+                                @ViewBag.Flight.DestinationCity.Name_En
+                                    break;
+                            }
+                        </td>
+                        <td>
+                            @ViewBag.Flight.Airline
+                        </td>
+                        <td>
+                            @ViewBag.Flight.DisplayDate
+                        </td>
+                        <td>
+                            @ViewBag.Flight.Time
+                        </td>
+                        <td>
+                            @ViewBag.Flight.FlightDuration
+                        </td>
+                        <td>
+                            @ViewBag.Flight.EcoSeatsCount
+                        </td>
+                        <td>
+                            @ViewBag.Flight.FrstSeatsCount
+                        </td>
+                        <td>
+                            @ViewBag.Flight.EconomyTicketPrice $
+                        </td>
+                        <td>
+                            @ViewBag.Flight.FirstClassTicketPrice $
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-lg-12">
+       
+        @using (Html.BeginForm("BookFlight", "Flight", FormMethod.Post, new { @class = "form-horizontal col-lg-9" }))
+        {
+            @Html.AntiForgeryToken()
+            
+            @Html.Hidden("FlightID")
+            <div class="form-group">
+                @Html.LabelFor(m => m.Seats, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Seats, new { @class = "form-control",placeholder = Resource.FlightBookinSeatsPH })
+                    @Html.ValidationMessageFor(m => m.Seats)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.FlightClass, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("FlightClass", new List<SelectListItem>
+                   {
+                       new SelectListItem{
+                            Text = Resource.FirstClass,
+                            Value = "FirstClass"
+                        },
+                        new SelectListItem{
+                            Text = Resource.EconomyClass,
+                            Value = "Economy"
+                        }
+                   }, Resource.SelectClass , new { @class = "form-control dropDownList"})
+                    @Html.ValidationMessageFor(m => m.FlightClass)
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="col-md-2"></div>
+                <div class="col-md-10">
+                    <button type="submit" class="btn btn-success">
+                        <span class="glyphicon glyphicon-check"></span>
+                        @Resource.Book
+                    </button>
+                </div>
+            </div>
+        }
+        <div class="col-lg-3">
+            <img src="~/Images/bookin.png" width="350" />
+        </div>
+    </div>
+</div>
+

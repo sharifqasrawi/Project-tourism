@@ -1,0 +1,59 @@
+﻿body{
+      font-family:'Droid Arabic Kufi',serif;
+}
+
+div.header-contents{
+    right:25px;
+}
+
+#LoginImg{
+    float:left;
+}
+
+#ImageHolder{
+    border:1px dashed black;
+    margin-top:5px;
+    border-radius:5px;
+    background-color:aqua;
+    float:right;
+}
+
+.CityMap{
+    float:left;
+    margin-right:50px;
+    margin-bottom:25px;
+}
+
+
+article.CityDesc{
+    text-align:justify;
+    font-family:'Sakkal Majalla';
+    font-size:14pt;
+}
+
+.CityImg{
+    width:250px;
+    height:250px;
+    float:right;
+    margin-left:15px;
+}
+
+.CountryBox{
+    float:right;
+    margin-left:15px;
+}
+
+.CityBox{
+    float:right;
+    margin-left:15px;
+}
+
+a.backToTop {
+	position: fixed;
+	left: 20px;
+	bottom: 20px;
+}
+
+#aboutImg{
+    float:left;
+}

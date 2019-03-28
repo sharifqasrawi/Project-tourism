@@ -1,0 +1,271 @@
+﻿@model Hotel
+@using TravelAndTourismWebsite.Models
+@using TravelAndTourismWebsite.Resources
+@using TravelAndTourismWebsite.WebsiteLanguages
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = Resource.HotelPreview;
+
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+            <img src="~/Images/headerHotel.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-lamp"></span>
+                    @Resource.Hotel
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="alert alert-success text-center">
+            <h2>
+                <span class="glyphicon glyphicon-bed"></span>
+                @switch (SiteLanguages.GetCurrentLanguageCulture())
+                {
+                    case "en-us":
+                        @Model.Name_En
+                        break;
+                    case "ar-SA":
+                    @Model.Name_Ar
+                        break;
+                    default:
+                    @Model.Name_En
+                        break;
+                }
+            </h2>
+            @for (int i = 0; i < Model.Stars; i++)
+            {
+                <img src="~/Images/star.png" width="30" />
+            }
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="table-responsive img-thumbnail CityMap">
+            <iframe src="@Url.Content(Model.Location)" width="400" height="300" frameborder="0" style="border:0" class=""></iframe>
+        </div>
+        <article class="CityDesc" style="float:none;">
+            <h4>
+                <span class="glyphicon glyphicon-info-sign"></span>
+                @Resource.AboutHotel :
+            </h4>
+            @switch (SiteLanguages.GetCurrentLanguageCulture())
+            {
+                case "en-us":
+                    @Model.Details_En
+                    break;
+                case "ar-SA":
+                @Model.Details_Ar
+                    break;
+                default:
+                @Model.Details_En
+                    break;
+            }
+
+        </article>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <h4>
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    @Resource.ContactDetails :
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4 class="text-info">
+                            <span class="glyphicon glyphicon-globe"></span>
+                            @Html.DisplayNameFor(m => m.Website)
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            <a href="@Model.Website" target="_blank">
+                                @Model.Website
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4 class="text-info">
+                            <span class="glyphicon glyphicon-envelope"></span>
+                            @Html.DisplayNameFor(m => m.Email)
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            <a href="mailto:@Model.Email"> @Model.Email </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4 class="text-info">
+                            <span class="glyphicon glyphicon-phone-alt"></span>
+                            @Html.DisplayNameFor(m => m.PhoneNumber)
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            @Model.PhoneNumber
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h4 class="">
+            <span class="glyphicon glyphicon-picture"></span>
+            @Html.DisplayNameFor(m => m.Images)
+        </h4>
+        <br />
+        <button type="button" id="HotelImagesBtn" title="@Resource.ShowHide" class="btn btn-primary btn-block AnimatedBtn">
+            <b class="glyphicon glyphicon-picture"></b>
+            @Resource.Images
+            <span></span>
+        </button>
+
+        <div id="HotelImagesPanel">
+            @foreach (var p in Model.Images)
+            {
+                <img src="@Url.Content(p.Path)" class="img-thumbnail CityImg" id="CityImg" onclick="openImg('@Url.Content(p.Path)')" />
+            }
+        </div>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-lg-12">
+        <h4 class="">
+            <span class="glyphicon glyphicon-bed"></span>
+            @Html.DisplayNameFor(m => m.HotelRooms)
+        </h4>
+        <div class="row">
+            <div class="col-lg-12">
+                <h5>
+                    <span class="glyphicon glyphicon-search"></span>
+                    @Resource.Search
+                </h5>
+            </div>
+        </div>
+
+        @using (Ajax.BeginForm("SearchRoom", "Hotel",
+                new AjaxOptions
+                {
+                    HttpMethod = "GET",
+                    UpdateTargetId = "DivRooms",
+                    LoadingElementId = "ajaxLoader",
+                    InsertionMode = InsertionMode.Replace
+
+                }))
+        {
+            <div class="row">
+                @Html.Hidden("HotelId", Model.Id)
+                <div class="col-lg-4">
+                    @Html.DropDownList("Type", new List<SelectListItem>
+                   {
+                       new SelectListItem{
+                            Text = Resource.RoomOrSweet,
+                            Value = "All"
+                        },
+                       new SelectListItem{
+                            Text = Resource.Room,
+                            Value = "Room"
+                        },
+                        new SelectListItem{
+                            Text = Resource.Sweet,
+                            Value = "Sweet"
+                        }
+                   }, new { @class = "form-control dropDownList" })
+
+                </div>
+                <div class="col-lg-4">
+                    @Html.DropDownList("GuestsCount", null, Resource.Cust_Count, new { @class = "form-control" })
+                </div>
+                <div class="col-lg-4">
+                    @Html.TextBox("NightPriceGt", null, new { @class = "form-control", placeholder = Resource.NightPriceGtPH })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-lg-4">
+                    @Html.TextBox("NightPriceLs", null, new { @class = "form-control", placeholder = Resource.NightPriceLsPH })
+                </div>
+                <div class="col-lg-4">
+                    @Html.TextBox("DetailsTerm", null, new { @class = "form-control", placeholder = Resource.RoomDetailsPH })
+                </div>
+                <div class="col-lg-4">
+                    <button type="submit" class="btn btn-block btn-primary">
+                        <span class="glyphicon glyphicon-search"></span>
+                        @Resource.Search
+                    </button>
+                </div>
+            </div>
+        }
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="flightsLoaderWrapper">
+                    <div id="ajaxLoader" class="text-center flightsLoader">
+                        <img src="~/Images/ajax-loader.gif" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive" id="DivRooms">
+            @Html.Partial("_RoomsTablePartial", Model)
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-lg-12">
+        <div id="hotelRate">
+            @Html.Partial("_HotelRatingPartial", Model)
+        </div>
+    </div>
+</div>
+
+<!-- Image Modal -->
+<div id="ImgModal" class="modal CityImgmodal" style="z-index:1000;">
+
+    <!-- The Close Button -->
+    <span class="close" onclick="document.getElementById('ImgModal').style.display = 'none'">&times;</span>
+
+    <!-- Modal Content (The Image) -->
+    <img class="modal-content" id="img">
+
+    <!-- Modal Caption (Image Text) -->
+    <div id="caption"></div>
+</div>
+

@@ -1,0 +1,126 @@
+﻿@model TravelAndTourismWebsite.Models.Flight
+@using TravelAndTourismWebsite.Resources
+
+@{
+    ViewBag.Title = Resource.AddNewFlight;
+}
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+
+            <img src="~/Images/plymouth-flights-header.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                    @Resource.AddNewFlight
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+<div class="row">
+    <div class="col-lg-12">
+        @using (Html.BeginForm("AddFlight", "Admin", FormMethod.Post, new { role = "form", @class = "form-horizontal" }))
+        {
+            <p>
+                <span class="glyphicon glyphicon-info-sign"></span>
+                @Resource.AddNewFlightInfo
+            </p>
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.SourceCity, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("SourceCity", null, Resource.SelectSourceCity, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.SourceCity)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.DestinationCity, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("DestinationCity", null, Resource.SelectDestinationCity, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.DestinationCity)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Airline, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Airline, new { @class = "form-control", placeholder = Resource.AirlinePH })
+                    @Html.ValidationMessageFor(m => m.Airline)
+                </div>
+            </div>
+            
+            <div class="form-group">
+                @Html.LabelFor(m => m.EcoSeatsCount, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.EcoSeatsCount, new { @class = "form-control", placeholder = Resource.EcoSeatsCount })
+                    @Html.ValidationMessageFor(m => m.EcoSeatsCount)
+                </div>
+            </div>
+            
+             <div class="form-group">
+                @Html.LabelFor(m => m.FrstSeatsCount, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.FrstSeatsCount, new { @class = "form-control", placeholder = Resource.FrstSeatsCountReq })
+                    @Html.ValidationMessageFor(m => m.FrstSeatsCount)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Date, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Date, new { @class = "form-control", placeholder = Resource.FligthDatePH, id = "datepicker" })
+                    @Html.ValidationMessageFor(m => m.Date)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Time, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Time, new { @class = "form-control", placeholder = Resource.FlightTimePH, id = "timepicker" })
+                    @Html.ValidationMessageFor(m => m.Time)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.FlightDuration, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.FlightDuration, new { @class = "form-control", placeholder = Resource.FlightDurationPH})
+                    @Html.ValidationMessageFor(m => m.FlightDuration)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.EconomyTicketPrice, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.EconomyTicketPrice, new { @class = "form-control", placeholder = Resource.FlightEcoPricePH })
+                    @Html.ValidationMessageFor(m => m.EconomyTicketPrice)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.FirstClassTicketPrice, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.FirstClassTicketPrice, new { @class = "form-control", placeholder = Resource.FlightFrstPricePH })
+                    @Html.ValidationMessageFor(m => m.FirstClassTicketPrice)
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-2"></div>
+                <div class="col-md-10">
+                    <button type="submit" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-floppy-saved">
+                        </span>
+                        @Resource.Add
+                    </button>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>

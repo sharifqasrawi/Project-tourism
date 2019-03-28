@@ -1,0 +1,96 @@
+﻿@model TravelAndTourismWebsite.Models.HotelRoom
+@using TravelAndTourismWebsite.Resources
+@using TravelAndTourismWebsite.WebsiteLanguages
+@{
+    ViewBag.Title = Resource.AddRoomToHotel;
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+            <img src="~/Images/RoomHeader.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-bed"></span>
+                    @Resource.AddRoomToHotel
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="alert alert-success text-center">
+            <h2>
+                <span class="glyphicon glyphicon-lamp"></span>
+               @Resource.Hotel : 
+               @switch(SiteLanguages.GetCurrentLanguageCulture())
+               {
+                   case "en-US":
+                       @Model.Hotel.Name_En
+                       break;
+                   case "ar-SA":
+                       @Model.Hotel.Name_Ar
+                       break;
+                   default:
+                       @Model.Hotel.Name_En
+                       break;
+               }
+            </h2>
+        </div>
+        @using (Html.BeginForm("AddRoomToHotel", "Hotel", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+            
+            @Html.HiddenFor(m => m.Hotel.Id)
+            
+            <h4>
+                <span class="glyphicon glyphicon-info-sign"></span>
+                @Resource.AddRoomToHotelInfo
+            </h4>
+            
+            <br />
+            
+            <div class="form-group">
+                @Html.LabelFor(m => m.Room.Type, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Rooms", null, Resource.SelectRoomType, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Room.Type)
+                </div>
+            </div>
+            
+            <div class="form-group">
+                @Html.LabelFor(m => m.Count, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                   @Html.TextBoxFor(m => m.Count, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Count)
+                </div>
+            </div>
+            
+            <div class="form-group">
+                @Html.LabelFor(m => m.NightPrice, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                   @Html.TextBoxFor(m => m.NightPrice, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.NightPrice)
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button type="submit" class="btn btn-success">
+                        <span class="glyphicon glyphicon-floppy-save"></span>
+                        @Resource.Add
+                    </button>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+
+
+
+

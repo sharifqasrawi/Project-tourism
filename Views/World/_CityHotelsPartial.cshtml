@@ -1,0 +1,84 @@
+﻿@using TravelAndTourismWebsite.Models
+@model CityPreviewViewModel
+@using TravelAndTourismWebsite.Resources
+@using TravelAndTourismWebsite.WebsiteLanguages
+
+@if (Model.Hotels.Count == 0)
+{
+    <h3 class="text-center alert alert-danger">
+        @Resource.NoRecordsFound
+    </h3>
+}
+else
+{
+
+    <table class="table customTable1">
+        <thead>
+            <tr>
+                <th>
+
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Hotels.First().Name_En)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Hotels.First().Stars)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Hotels.First().Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Hotels.First().PhoneNumber)
+                </th>
+                <th>
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var h in Model.Hotels)
+            {
+                <tr>
+                    <td>
+                        <img src="@Url.Content(h.Images[0].Path)" class="img-thumbnail HotelImg" />
+                    </td>
+                    <td>
+                        @switch(SiteLanguages.GetCurrentLanguageCulture())
+                        {
+                            case "en-US":
+                                @h.Name_En
+                                break;
+                                
+                            case "ar-SA":
+                                @h.Name_Ar
+                                break;
+                            default:
+                                @h.Name_En
+                                break;
+                                
+                        }
+                    </td>
+                    <td>
+                        @for (int i = 0; i < h.Stars; i++)
+                        {
+                            <img src="~/Images/star.png" width="20" />
+                        }
+                    </td>
+                    <td>
+                        @h.Email
+                    </td>
+                    <td>
+                        @h.PhoneNumber
+                    </td>
+                    <td>
+                        <a href="@Url.Action("HotelPreview", "Hotel", new { HotelId = h.Id })" class="btn btn-primary btn-sm">
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                            @Resource.CheckHotel
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}

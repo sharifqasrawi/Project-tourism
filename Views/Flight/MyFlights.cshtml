@@ -1,0 +1,139 @@
+﻿@model IEnumerable<TravelAndTourismWebsite.Models.FlightReservation>
+@using TravelAndTourismWebsite.WebsiteLanguages
+@using TravelAndTourismWebsite.Resources
+@{
+    ViewBag.Title = Resource.FlightReservations;
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+
+            <img src="~/Images/plymouth-flights-header.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    @Resource.FlightReservations
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        @if (Model.Count() == 0)
+        {
+            <h3 class="text-center alert alert-danger">
+                @Resource.NoRecordsFound
+            </h3>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table customTable1">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(m => m.First().Flight.SourceCity)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.First().Flight.DestinationCity)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.First().Flight.DisplayDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.First().Flight.Time)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.First().Flight.FlightDuration)
+                            </th>
+                            <th>
+                                @Resource.ReservationDateTime
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.First().Seats)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.First().FlightClass)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.First().ReservationPrice)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var f in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @switch(SiteLanguages.GetCurrentLanguageCulture())
+                                    {
+                                        case "en-US":
+                                             @f.Flight.SourceCity.Name_En
+                                            break;
+                                        case "ar-SA":
+                                         @f.Flight.SourceCity.Name_Ar
+                                            break;
+                                        default:
+                                         @f.Flight.SourceCity.Name_En
+                                            break;
+                                    }
+                                   
+                                </td>
+                                <td>
+                                    @switch (SiteLanguages.GetCurrentLanguageCulture())
+                                    {
+                                        case "en-US":
+                                            @f.Flight.DestinationCity.Name_En
+                                            break;
+                                        case "ar-SA":
+                                        @f.Flight.DestinationCity.Name_Ar
+                                            break;
+                                        default:
+                                        @f.Flight.DestinationCity.Name_En
+                                            break;
+                                    }
+                                </td>
+                                <td>
+                                    @f.Flight.DisplayDate
+                                </td>
+                                <td>
+                                    @f.Flight.Time
+                                </td>
+                                <td>
+                                    @f.Flight.FlightDuration
+                                </td>
+                                <td>
+                                    @f.DisplayDateTime
+                                </td>
+                                <td>
+                                    @f.Seats
+                                </td>
+                                <td>
+                                    @(f.FlightClass == "FirstClass" ? Resource.FirstClass :Resource.EconomyClass)
+                                </td>
+                                <td>
+                                    @f.ReservationPrice $
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Ticket", "Flight", new { Id = f.ID })" class="btn btn-sm btn-primary" >
+                                        <span class="glyphicon glyphicon-print"></span>
+                                    </a>
+                                    |
+                                    <a href="@Url.Action("CancelReservation", "Flight", new { Id = f.ID })" class="btn btn-sm btn-danger"
+                                       onclick="return confirm('@Resource.CancelReservation');">
+                                        <span class="glyphicon glyphicon-remove-circle"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+
+    </div>
+</div>

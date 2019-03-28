@@ -1,0 +1,173 @@
+﻿@model IPagedList<TravelAndTourismWebsite.Models.Hotel>
+@using PagedList
+@using PagedList.Mvc
+@using TravelAndTourismWebsite.WebsiteLanguages
+@using TravelAndTourismWebsite.Resources
+
+@{
+    ViewBag.Title = Resource.HotelsManagement;
+}
+
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+            <img src="~/Images/header-01.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-asterisk"></span>
+                    @Resource.HotelsManagement
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+<div class="row">
+    <div class="col-lg-12">
+        <a href="@Url.Action("Rooms","Hotel")" class="btn btn-lg btn-block btn-primary">
+            <span class="glyphicon glyphicon-bed"></span>
+            @Resource.RoomsManagement
+        </a>
+    </div>
+</div>
+
+<br />
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <a href="@Url.Action("AddNewHotel","Hotel")" class="btn btn-lg btn-block btn-success">
+            <span class="glyphicon glyphicon-plus"></span>
+            @Resource.AddHotel
+        </a>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <h4>
+                    <span class="glyphicon glyphicon-search">
+                    </span>
+                    @Resource.Search
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            @using (Html.BeginForm("HotelsManagement", "Hotel", FormMethod.Get, new { @class = "form-horizontal" }))
+            {
+
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </span>
+                        @Html.TextBox("Search", null, new { @class = "form-control", placeholer = Resource.HotelName })
+                    </div>
+
+                </div>
+                <div class="col-lg-6">
+                    <button type="submit" class="btn btn-block btn-default">
+                        <span class="glyphicon glyphicon-search"></span>
+                        @Resource.Search
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<hr />
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="table-responsive">
+            <table class="table customTable1" >
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().Name_En)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().City.Country.Name_En)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().City.Name_En)
+                        </th>
+                        <th>
+                            @Resource.Options
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var h in Model)
+                    {
+                        <tr>
+                            <td>
+                                @switch (SiteLanguages.GetCurrentLanguageCulture())
+                                {
+                                    case "en-US":
+                                        @h.Name_En
+                                        break;
+                                    case "ar-SA":
+                                        @h.Name_Ar
+                                        break;
+                                    default:
+                                        @h.Name_En
+                                        break;
+                                }
+                            </td>
+                            <td>
+                                @switch (SiteLanguages.GetCurrentLanguageCulture())
+                                {
+                                    case "en-US":
+                                        @h.City.Country.Name_En
+                                        break;
+                                    case "ar-SA":
+                                        @h.City.Country.Name_Ar
+                                        break;
+                                    default:
+                                        @h.City.Country.Name_En
+                                        break;
+                                }
+                            </td>
+                            <td>
+                                @switch (SiteLanguages.GetCurrentLanguageCulture())
+                                {
+                                    case "en-US":
+                                        @h.City.Name_En
+                                        break;
+                                    case "ar-SA":
+                                        @h.City.Name_Ar
+                                        break;
+                                    default:
+                                        @h.City.Name_En
+                                        break;
+                                }
+                            </td>
+                            <td>
+                                <a href="@Url.Action("EditHotel", "Hotel", new { Id = h.Id })" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                    @Resource.Edit
+                                </a>
+                                <a href="@Url.Action("HotelRoomsManagement", "Hotel", new { HotelId = h.Id })" class="btn btn-primary btn-sm">
+                                    <span class="glyphicon glyphicon-bed"></span>
+                                    @Resource.HotelRoomsManagement
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @Html.PagedListPager(Model, page => Url.Action("HotelsManagement", "Hotel", new { page }),
+                        new PagedListRenderOptions()
+                        {
+                            Display = PagedListDisplayMode.IfNeeded,
+                            DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded
+                        })
+    </div>
+</div>

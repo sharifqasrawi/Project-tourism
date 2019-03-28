@@ -1,0 +1,111 @@
+﻿@model IPagedList<TravelAndTourismWebsite.Models.Offer>
+@using TravelAndTourismWebsite.Resources
+@using TravelAndTourismWebsite.WebsiteLanguages
+@using PagedList
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = Resource.OffersManagement;
+}
+
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+            <img src="~/Images/offerHeader.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-list"></span>
+                    @Resource.OffersManagement
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <a href="@Url.Action("CreateOffer1", "Offer")" class="btn btn-lg btn-block btn-primary">
+            <span class="glyphicon glyphicon-plus"></span>
+            @Resource.CreateOffer
+        </a>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="table-responsive" style="margin-top:-50px">
+            <table class="table customTable1">
+                <caption class="caption text-center">
+                    <h3>
+                        @Resource.OffersList
+                    </h3>
+                </caption>
+                <thead>
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            @Resource.OffersLeft
+                        </th>
+                        <th>
+                            @Resource.Status
+                        </th>
+                        <th>
+                            @Resource.Options
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var m in Model)
+                    {
+                        <tr>
+                            <td>
+                                @m.Id
+                            </td>
+                            <td>
+                                @m.Count
+                            </td>
+                            <td>
+                                @(m.Status == "Closed" ? Resource.Closed : Resource.Available)
+                            </td>
+                            <td>
+                                <a href="@Url.Action("ViewOffer", "Offer", new { Id = m.Id })" class="btn btn-success btn-sm">
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                    View
+                                </a>
+                                @if (m.Status == "Closed")
+                                {
+                                    <button class="btn btn-sm btn-danger" disabled="disabled">
+                                        <span class="glyphicon glyphicon-remove-sign"></span>
+                                        @Resource.Close
+                                    </button>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("CloseOffer", "Offer", new { id = m.Id })" class="btn btn-sm btn-danger"
+                                       onclick="return confirm('@Resource.CloseOfferConfirm')">
+                                        <span class="glyphicon glyphicon-remove-sign"></span>
+                                        @Resource.Close
+                                    </a>
+                                }
+
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @Html.PagedListPager(Model, page => Url.Action("OffersManagement", "Offer", new { page }),
+                        new PagedListRenderOptions()
+                        {
+                            Display = PagedListDisplayMode.IfNeeded,
+                            DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded
+                        })
+    </div>
+</div>

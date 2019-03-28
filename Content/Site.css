@@ -1,0 +1,512 @@
+﻿@import url(https://fonts.googleapis.com/earlyaccess/droidarabickufi.css);
+
+
+body {
+    padding-bottom: 20px;
+    background: url(../Images/bg4.jpg) fixed;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color:rgba(250, 247, 247, 0.95);
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/* styles for validation helpers */
+.field-validation-error {
+    color: #b94a48;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+.jumbotron{
+    background: url(../Images/img1.jpg);
+    background-size:100% 100%;
+    color:white;
+}
+
+footer a{
+    color:black;
+}
+footer{
+    padding-bottom:10px;
+}
+
+.flightsPage{
+    background:url(../Images/plymouth-flights-header.jpg) no-repeat; 
+      background-size:100% 100%;
+    width:100%;
+    height:200px;
+}
+
+.flightsHeader{
+    width:100%;
+  height:200px;
+}
+
+hr{
+    border-color:#808080;
+}
+
+.customTable1 {
+    background: #f5f5f5;
+    border-collapse: separate;
+    box-shadow: inset 0 1px 0 #fff;
+    font-size: 12px;
+    line-height: 24px;
+    margin: 30px auto;
+    text-align: left;
+}   
+
+.customTable1 th {
+    background:linear-gradient(#777, #444);
+    border-left: 1px solid #555;
+    border-right: 1px solid #777;
+    border-top: 1px solid #555;
+    border-bottom: 1px solid #333;
+    box-shadow: inset 0 1px 0 #999;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px 15px;
+    position: relative;
+    text-shadow: 0 1px 0 #000;  
+}
+
+.customTable1 th:after {
+    background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.08));
+    content: '';
+    display: block;
+    height: 25%;
+    left: 0;
+    margin: 1px 0 0 0;
+    position: absolute;
+    top: 25%;
+    width: 100%;
+}
+
+.customTable1 th:first-child {
+    border-left: 1px solid #777;    
+    box-shadow: inset 1px 1px 0 #999;
+}
+
+.customTable1 th:last-child {
+    box-shadow: inset -1px 1px 0 #999;
+}
+
+.customTable1 td {
+    border-right: 1px solid #fff;
+    border-left: 1px solid #e8e8e8;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #e8e8e8;
+    padding: 10px 15px;
+    position: relative;
+    transition: all 300ms;
+}
+
+.customTable1 td:first-child {
+    box-shadow: inset 1px 0 0 #fff;
+}   
+
+.customTable1 td:last-child {
+    border-right: 1px solid #e8e8e8;
+    box-shadow: inset -1px 0 0 #fff;
+}   
+
+
+.customTable1 tr:nth-child(odd) td {
+    background: #f1f1f1;
+}
+
+.customTable1 tr:last-of-type td {
+    box-shadow: inset 0 -1px 0 #fff; 
+}
+
+.customTable1 tr:last-of-type td:first-child {
+    box-shadow: inset 1px -1px 0 #fff;
+}   
+
+.customTable1 tr:last-of-type td:last-child {
+    box-shadow: inset -1px -1px 0 #fff;
+}   
+
+.customTable1Hover tbody:hover td {
+    color: transparent;
+    text-shadow: 0 0 3px #aaa;
+}
+
+.customTable1Hover tbody:hover tr:hover td {
+    color: #444;
+    text-shadow: 0 1px 0 #fff;
+}
+
+.customTable1 td, th{
+    text-align:center;
+}
+
+img.header-image{
+    width:100%;
+    height:200px;
+}
+
+div.header-wrapper{
+    position:relative;
+    top:-20px;
+}
+
+div.header-contents{
+    position:absolute;
+    width:100%;
+    top:0;
+    color:#ffffff;
+      
+}
+
+.messageTextArea{
+   min-width:90%;
+   min-height:300px;
+   resize:none;
+}
+
+#loginWaitingBox{
+    height:5px;
+}
+
+.DescriptionTextArea{
+    min-height:130px;
+    max-height:130px;
+    min-width:280px;
+    max-width:280px;
+    resize:none;
+}
+
+.CityMap {
+    margin-top:5px;
+    float:right;
+}
+
+
+.CityImg:hover{
+    opacity:0.9;
+    cursor:pointer;
+}
+
+/*View Image Modal Style*/
+/* The Modal (background) */
+.CityImgmodal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (Image) */
+.CityImgmodal .modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+/* Caption of Modal Image (Image Text) - Same Width as the Image */
+#caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+}
+
+/* Add Animation - Zoom in the Modal */
+.CityImgmodal .modal-content, #caption {
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+    from {-webkit-transform:scale(0)}
+    to {-webkit-transform:scale(1)}
+}
+
+@keyframes zoom {
+    from {transform:scale(0)}
+    to {transform:scale(1)}
+}
+
+/* The Close Button */
+.CityImgmodal .close {
+    position: absolute;
+    top: 55px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.CityImgmodal .close:hover,
+.CityImgmodal .close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+.flightsLoader {
+
+    display:none;
+}
+
+.flightsLoaderWrapper{
+        margin-top: 10px;
+    height:25px;
+}
+
+.CountryBox{
+    width:200px;
+    height:180px;
+   margin-bottom:15px;
+    border-radius:10px;
+}
+
+
+a .CountryBox h5{
+    color:white;
+}
+
+a .CountryBox:hover{
+    opacity:0.9;
+}
+
+
+.CityBox{
+    width:240px;
+    height:220px;
+    margin-bottom:15px;
+    border-radius:10px;
+}
+
+
+a .CityBox h4{
+    color:white;
+}
+
+a .CityBox:hover{
+    opacity:0.9;
+}
+
+.CityBoxImg{
+    width:240px;
+    height:200px;
+}
+
+.flag{
+    width:200px;
+    height:150px;
+    border-radius:10px;
+}
+
+
+.thumb-image {
+    float: left;
+    width: 155px;
+    height: 155px;
+    position: relative;
+    padding: 5px;
+}
+
+
+.HotelImg{
+    width:200px;
+    height:180px;
+}
+
+.bgcolor1{
+    background-color:#f5f5f5;
+}
+
+
+.navbar-inverse .navbar-brand{
+    color:white;
+}
+
+
+.navbar li:hover, .navbar a:hover{
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    transition: background-color 0.4s ease-in-out 0s;
+}
+
+#site-nav.navbar-default .navbar-brand {
+    color: rgba(250, 237, 237, 1);
+}
+#site-nav.navbar-default {
+    font-size: 15px;
+    background-color: rgba(23, 6, 6, 1);
+    background: -webkit-linear-gradient(top, rgba(102, 98, 98, 1) 0%, rgba(23, 6, 6, 1) 100%);
+    background: linear-gradient(to bottom, rgba(102, 98, 98, 1) 0%, rgba(23, 6, 6, 1) 100%);
+    border-bottom-width: 0px;
+}
+#site-nav.navbar-default .navbar-nav>li>a {
+    color: rgb(225, 196, 196);
+    background-color: rgba(248, 248, 248, 0);
+}
+#site-nav.navbar-default .navbar-nav>li>a:hover,
+#site-nav.navbar-default .navbar-nav>li>a:focus {
+    color: white;
+    background-color: rgba(248, 248, 248, 0);
+}
+#site-nav.navbar-default .navbar-nav>.active>a,
+#site-nav.navbar-default .navbar-nav>.active>a:hover,
+#site-nav.navbar-default .navbar-nav>.active>a:focus {
+    color: rgba(33, 0, 0, 1);
+    background-color: rgba(231, 231, 231, 1);
+}
+#site-nav.navbar-default .navbar-toggle {
+    border-color: #ddd;
+}
+#site-nav.navbar-default .navbar-toggle:hover,
+#site-nav.navbar-default .navbar-toggle:focus {
+    background-color: #ddd;
+}
+#site-nav.navbar-default .navbar-toggle .icon-bar {
+    background-color: #888;
+}
+#site-nav.navbar-default .navbar-toggle:hover .icon-bar,
+#site-nav.navbar-default .navbar-toggle:focus .icon-bar {
+    background-color: #170606;
+}
+
+a.backToTop {
+	display: none;
+	width: 40px;
+	height: 40px;
+	text-indent: -9999px;
+	position: fixed;
+	z-index: 999;
+	right: 20px;
+	bottom: 20px;
+	background: #949191 url("../Images/up-arrow.png") no-repeat center 30%;
+	-webkit-border-radius: 30px;
+	-moz-border-radius: 30px;
+	border-radius: 30px;
+    opacity:0.7;
+}
+a:hover.backToTop {
+	background-color: #414546;
+}
+
+
+
+.adminPanel .panel-body .btn:not(.btn-block) {
+     width:200px;
+     margin-bottom:10px; 
+     height:110px; 
+     font-size:14pt; 
+     margin-right:10px;
+     padding-top:20px;
+}
+.adminPanel .panel-body .btn:not(.btn-block) span{ font-size:20pt; }
+
+.AnimatedBtn span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.AnimatedBtn span:after {
+  content: '»';
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.AnimatedBtn:hover span {
+  
+}
+
+.AnimatedBtn:hover span:after {
+  opacity: 1;
+  right: 0;
+
+}
+
+
+
+.OfferImg{
+    width:200px;
+    height:200px;
+}
+
+
+.cat-title {
+    background: blue none repeat scroll 0 0;
+    border-radius: .2em .2em 0 0;
+    display: inline-block;
+    margin-bottom: 0;
+    margin-top: 0;
+    padding: .3em .5em;
+    font-size: 1em;
+    font-weight:bold;
+}
+.cat-title-after {
+    border: 2px solid blue;
+    display: block;
+    height: .1em;
+    padding: 0;
+    margin: 0 0 .5em;
+}
+
+
+
+
+#aboutImg {
+    margin-top: 50px;
+}
+
+@media only screen and (max-width: 700px) {
+    h3{
+        font-size:100%;
+    }
+    h2{
+        font-size:150%;
+    }
+
+}

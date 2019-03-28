@@ -1,0 +1,66 @@
+﻿@model TravelAndTourismWebsite.Models.ReplyMessageViewModel
+@using TravelAndTourismWebsite.Resources
+
+@{
+    ViewBag.Title = Resource.MsgReply;
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+            <img src="~/Images/msg2.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-envelope"></span>
+                    @Resource.Message
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h4 class="text-center alert-danger @ViewBag.ErrorAlert">
+            @ViewBag.ErrorSendingEmail
+        </h4>
+        <br />
+        @using (Html.BeginForm("MessageReply", "Admin", FormMethod.Post,new { @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+            
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(m => m.Email)
+                </div>
+            </div>
+            
+            <div class="form-group">
+                @Html.LabelFor(m => m.Subject, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Subject, new { @class = "form-control"})
+                    @Html.ValidationMessageFor(m => m.Subject)
+                </div>
+            </div>
+            
+            <div class="form-group">
+                @Html.LabelFor(m => m.MessageText, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(m => m.MessageText, new { @class = "form-control messageTextArea" })
+                    @Html.ValidationMessageFor(m => m.MessageText)
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="col-md-10 col-md-offset-2">
+                   <button type="submit" class="btn btn-primary">
+                       @Resource.Send
+                       <span class="glyphicon glyphicon-send"></span>
+                   </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>

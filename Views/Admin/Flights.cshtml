@@ -1,0 +1,231 @@
+﻿@using Microsoft.AspNet.Identity
+@using TravelAndTourismWebsite.Models
+@using TravelAndTourismWebsite.Resources
+@using TravelAndTourismWebsite.WebsiteLanguages
+@using PagedList
+@using PagedList.Mvc
+
+@model  IPagedList<TravelAndTourismWebsite.Models.Flight>
+
+@{
+    ViewBag.Title = Resource.Flights;
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+            <img src="~/Images/plymouth-flights-header.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-plane"></span>
+                    @Resource.Flights
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-lg-12">
+        <a href="@Url.Action("AddFlight","Admin")" class="btn btn-default btn-lg btn-block">
+            <span class="glyphicon glyphicon-plus-sign"></span> 
+            @Resource.AddNewFlight 
+        </a>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <h4>
+                    <span class="glyphicon glyphicon-search">
+                    </span>
+                    @Resource.Search
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            @using (Html.BeginForm("Flights", "Admin", FormMethod.Get, new { @class = "form-horizontal" }))
+            {
+
+                <div class="col-lg-3">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-globe"></span>
+                        </span>
+                       @Html.DropDownList("SourceCity", null, Resource.SelectSourceCity, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-globe"></span>
+                        </span>
+                        @Html.DropDownList("DestinationCity", null, Resource.SelectDestinationCity, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-time"></span>
+                        </span>
+                        @Html.TextBox("Date", null, new { @class = "form-control", placeholder = Resource.Date, id = "Date" })
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <button type="submit" class="btn btn-block btn-primary">
+                        <span class="glyphicon glyphicon-search"></span>
+                        @Resource.Search
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="table-responsive">
+            <table class="table customTable1">
+                <caption class="caption text-center">
+                    <h3>
+                        @Resource.FlightsList
+                    </h3>
+                </caption>
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().SourceCity)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().DestinationCity)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().Date)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().Time)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().FlightDuration)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().EcoSeatsCount)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().FrstSeatsCount)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().EconomyTicketPrice)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().FirstClassTicketPrice)
+                        </th>
+                        <th colspan="3">
+                            @Resource.Options
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Flight f in Model)
+                    {
+                        <tr>
+                            <td>
+                                @switch(SiteLanguages.GetCurrentLanguageCulture())
+                                { 
+                                    case "en-US":
+                                        @f.SourceCity.Name_En
+                                        break;
+                                    case "ar-SA":
+                                    @f.SourceCity.Name_Ar
+                                        break;
+                                    default:
+                                    @f.SourceCity.Name_En
+                                        break;
+                                }
+                            </td>
+                            <td>
+                                @switch (SiteLanguages.GetCurrentLanguageCulture())
+                                {
+                                    case "en-US":
+                                         @f.DestinationCity.Name_En
+                                        break;
+                                    case "ar-SA":
+                                    @f.DestinationCity.Name_Ar
+                                        break;
+                                    default:
+                                     @f.DestinationCity.Name_En
+                                        break;
+                                }
+                            </td>
+                            <td>
+                                @f.DisplayDate
+                            </td>
+                            <td>
+                                @f.Time
+                            </td>
+                            <td>
+                                @f.FlightDuration
+                            </td>
+                            <td>
+                                @f.EcoSeatsCount
+                            </td>
+                            <td>
+                                @f.FrstSeatsCount
+                            </td>
+                            <td>
+                                @f.EconomyTicketPrice $
+                            </td>
+                            <td>
+                                @f.FirstClassTicketPrice $
+                            </td>
+                            <td>
+                                <a href="@Url.Action("EditFlight", "Admin", new { id = f.ID })" class="btn btn-sm btn-default">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                    @Resource.Edit
+                                </a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("DeleteFlight", "Admin", new { id = f.ID })" class="btn btn-sm btn-danger"
+                                   onclick="return confirm('@Resource.ConfirmDelete ? ');" >
+                                    <span class="glyphicon glyphicon-erase"></span>
+                                    @Resource.Delete
+                                </a>
+                                </td>
+                            <td>
+                                @if(f.Reservations.Count > 0 )
+                                { 
+                                    <a href="@Url.Action("FlightPsngrsLst", "Admin", new { id = f.ID })" class="btn btn-sm btn-warning btn-block">
+                                        <span class="glyphicon glyphicon-list-alt"></span>
+                                        @Resource.PsngrsLst
+                                    </a>
+                                }
+                                else
+                                {
+                                     <a class="btn btn-sm btn-danger" title="Empty"  >
+                                        <span class="glyphicon glyphicon-ban-circle"></span>
+                                        @Resource.NoReservations
+                                    </a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+
+        @Html.PagedListPager(Model, page => Url.Action("Flights", "Admin", new { page }),
+                        new PagedListRenderOptions()
+                        {
+                            Display = PagedListDisplayMode.IfNeeded,
+                            DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded
+                        })
+
+
+
+    </div>
+</div>

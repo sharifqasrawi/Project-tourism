@@ -1,0 +1,31 @@
+﻿@model TravelAndTourismWebsite.Models.Room
+
+@using TravelAndTourismWebsite.Resources
+
+@if (Model.IsAvailable)
+{
+    @Ajax.RawActionLink(string.Format("<span class = \"glyphicon glyphicon-eye-open\"></span> " + Resource.Visible),
+                               "ChangeRoomVisibility", "Hotel", new { id = Model.Id },
+                                    new AjaxOptions
+                                    {
+                                        HttpMethod = "GET",
+                                        UpdateTargetId = "divRoomVisibilityStatus_" + Model.Id,
+                                        InsertionMode = InsertionMode.Replace
+                                    },
+                            new { @class = "btn btn-success", title = Resource.Hide })
+
+
+}
+else
+{
+    @Ajax.RawActionLink(string.Format("<span class = \"glyphicon glyphicon-eye-close\"></span> " + Resource.Hidden),
+                               "ChangeRoomVisibility", "Hotel", new { id = Model.Id },
+                                new AjaxOptions
+                                {
+                                    HttpMethod = "GET",
+                                    UpdateTargetId = "divRoomVisibilityStatus_" + Model.Id,
+                                    InsertionMode = InsertionMode.Replace
+                                },
+                            new { @class = "btn btn-danger", title = Resource.Show })
+
+}

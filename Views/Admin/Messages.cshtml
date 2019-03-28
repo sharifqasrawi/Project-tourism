@@ -1,0 +1,120 @@
+﻿@model IPagedList<TravelAndTourismWebsite.Models.Message>
+@using TravelAndTourismWebsite.Resources
+@using TravelAndTourismWebsite.WebsiteLanguages
+@using PagedList
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = Resource.Messages;
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+            <img src="~/Images/msg2.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-envelope"></span>
+                    @Resource.Messages
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <a href="@Url.Action("SendEmailToUsers","Admin")" class="btn btn-success btn-block">
+            <span class="glyphicon glyphicon-envelope"></span>
+            @Resource.SendEmailToAllUsers
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="table-responsive">
+            <table class="table customTable1">
+                <caption>
+                    @using (Html.BeginForm("Messages", "Admin", FormMethod.Get, new { @class = "form-horizontal" }))
+                    {
+                        <div class="col-lg-6">
+                        <div class="form-group">
+                            @Html.Label("lblSearch", Resource.Search, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextBox("Search", null, new { @class = "form-control" })
+                            </div>
+                        </div>
+                            </div>
+                        <div class="col-lg-6">
+                            <button type="submit" class="btn btn-default">
+                                <span class="glyphicon glyphicon-search"></span>
+                                @Resource.Search
+                            </button>
+                        </div>
+                       
+                    }
+                </caption>
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().Subject)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().Email)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().DisplayDate_Time)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().IsRead)
+                        </th>
+                        <th>
+                            @Resource.Options
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var msg in Model)
+                    {
+                        string font  = "";
+                        if (!msg.IsRead)
+                        {
+                            font = "font-weight:bold;";
+                        }
+                        else
+                        {
+                            font = "font-weight:normal;";
+                        }
+                        <tr style="@font">
+                            <td>
+                                @msg.Subject
+                            </td>
+                            <td>
+                                @msg.Email
+                            </td>
+                            <td>
+                                @msg.DisplayDate_Time
+                            </td>
+                            <td>
+                                @Html.CheckBox("IsRead", msg.IsRead, new { disabled = "disabled" })
+                            </td>
+                            <td>
+                                <a href="@Url.Action("ViewMessage", "Admin", new { Id = msg.Id })" class="btn btn-primary btn-sm">
+                                    <span class="glyphicon glyphicon-folder-open"></span>
+                                    @Resource.ViewMessage
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @Html.PagedListPager(Model, page => Url.Action("Messages", "Admin", new { page }),
+                        new PagedListRenderOptions()
+                        {
+                            Display = PagedListDisplayMode.IfNeeded,
+                            DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded
+                        })
+    </div>
+</div>

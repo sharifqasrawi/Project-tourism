@@ -1,0 +1,192 @@
+﻿@model IPagedList<ApplicationUser>
+@using TravelAndTourismWebsite.Models
+@using TravelAndTourismWebsite.WebsiteLanguages
+@using TravelAndTourismWebsite.Resources
+@using PagedList
+@using PagedList.Mvc
+@{
+    ViewBag.Title = Resource.ManageUsers;
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+            <img src="~/Images/services_header.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-user"></span>
+                    @Resource.ManageUsers
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <a href="@Url.Action("AddNewUser","Admin")" class="btn btn-block btn-success btn-lg">
+            <span class="glyphicon glyphicon-plus"></span>
+            @Resource.AddAdminUser
+        </a>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-lg-12">
+        <div class="text-center form-inline">
+
+            <div class="col-lg-3  col-md-3 col-sm-3 col-xs-12">
+                @using (Html.BeginForm("FilterUsers", "Admin", FormMethod.Get))
+                {
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-filter"></i></span>
+
+                        @Html.DropDownList("Status", new List<SelectListItem>
+                   {
+                       new SelectListItem{
+                            Text = Resource.All,
+                            Value = "All"
+                        },
+                        new SelectListItem{
+                            Text = Resource.Active,
+                            Value = "Active"
+                        },
+                        new SelectListItem{
+                            Text = Resource.Blocked,
+                            Value = "Blocked"
+                        }
+                   }, new { @class = "form-control ", onchange = "javascript:this.form.submit();" })
+                    </div>
+                }
+            </div>
+
+            <div class="col-lg-3  col-md-3 col-sm-3 col-xs-12">
+                @using (Html.BeginForm("FilterUsers2", "Admin", FormMethod.Get))
+                {
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-filter"></i></span>
+
+                        @Html.DropDownList("Type", new List<SelectListItem>
+                   {
+                       new SelectListItem{
+                            Text = Resource.All,
+                            Value = "All"
+                        },
+                        new SelectListItem{
+                            Text = Resource.IsAdmin,
+                            Value = "Admin"
+                        },
+                        new SelectListItem{
+                            Text = Resource.User,
+                            Value = "User"
+                        }
+                   }, new { @class = "form-control ", onchange = "javascript:this.form.submit();" })
+                    </div>
+                }
+            </div>
+
+            @using (Html.BeginForm("UsersManagement", "Admin", FormMethod.Get))
+            {
+                <div class="col-lg-3  col-md-3 col-sm-3 col-xs-12">
+                    <div class="input-group">
+                        <span class="input-group-addon" title="@Resource.SearchUserTitle"><i class="glyphicon glyphicon-question-sign"></i></span>
+                        @Html.TextBox("Search", null, new { @class = "form-control", placeholder = Resource.Search, title = Resource.SearchUserTitle })
+                    </div>
+
+                </div>
+                <div class="col-lg-3  col-md-3 col-sm-3 col-xs-12">
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <span class="glyphicon glyphicon-search"></span>
+                        @Resource.Search
+                    </button>
+                </div>
+
+
+            }
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="table-responsive">
+            <div class="flightsLoaderWrapper">
+                <div id="DivWaiting" style="display:none;" class="text-center">
+                    <img src="~/Images/ajax-loader.gif" id="WaitingImg" />
+                </div>
+            </div>
+            <div class="table-responsive" style="margin-top:-20px;">
+                <table class="table customTable1">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Resource.Username
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.First().FirstName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.First().LastName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.First().IsAdmin)
+                            </th>
+                            <th>
+                                @Resource.Status
+                            </th>
+                            <th>
+                                @Resource.Options
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @user.UserName
+                                </td>
+                                <td>
+                                    @user.FirstName
+                                </td>
+                                <td>
+                                    @user.LastName
+                                </td>
+                                <td>
+                                    @if (user.IsAdmin)
+                                    {
+                                        <span class="glyphicon glyphicon-king"></span>
+                                    }
+                                    else
+                                    {
+                                        <span class="glyphicon glyphicon-user"></span>
+                                    }
+                                </td>
+                                <td>
+                                    <div id="divUserStatus_@user.Id">
+                                        @Html.Partial("_UserAccountStatusPartial", user)
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("UserRolesManagement", "Admin", new { Id = user.Id })" class="btn btn-sm btn-primary">
+                                        <span class="glyphicon glyphicon-signal"></span>
+                                        @Resource.ManageRoles
+                                    </a>
+                                    <a href="@Url.Action("UserInfo", "Admin", new { Id = user.Id })" class="btn btn-sm btn-warning">
+                                        <span class="glyphicon glyphicon-info-sign"></span>
+                                        @Resource.UserInfo
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @Html.PagedListPager(Model, page => Url.Action("UsersManagement", "Admin", new { page }),
+                        new PagedListRenderOptions()
+                        {
+                            Display = PagedListDisplayMode.IfNeeded,
+                            DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded
+                        })
+    </div>
+</div>

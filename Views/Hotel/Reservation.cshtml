@@ -1,0 +1,140 @@
+﻿@model TravelAndTourismWebsite.Models.HotelReservation
+@using TravelAndTourismWebsite.Resources
+@using TravelAndTourismWebsite.WebsiteLanguages
+@{
+    ViewBag.Title = Resource.HotelReservation;
+}
+
+<div class="row" id="hotelHeader">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+            <img src="~/Images/headerHotel.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-lamp"></span>
+                    @Resource.HotelReservation
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="text-center">
+            <h2>
+                @Resource.Hotel:
+                @switch (SiteLanguages.GetCurrentLanguageCulture())
+                {
+                    case "en-US":
+                        @Model.Room.Hotel.Name_En
+                        break;
+                    case "ar-SA":
+                        @Model.Room.Hotel.Name_Ar
+                        break;
+                    default:
+                        @Model.Room.Hotel.Name_En
+                        break;
+                } 
+            </h2>
+            <h4>
+                @Resource.ReservationNum: @Model.Id
+            </h4>
+        </div>
+        <br />
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.Room.Room.Type)
+                </th>
+                <td>
+                    @(Model.Room.Room.Type == "Room" ? Resource.Room : Resource.Sweet)
+                </td>
+                <th>
+                    @Html.DisplayNameFor(m => m.Room.Room.Cust_Count)
+                </th>
+                <td>
+                    @Model.Room.Room.Cust_Count
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.Check_In_Date)
+                </th>
+                <td>
+                    @Model.Check_In_Date.ToString(new System.Globalization.CultureInfo("en-US"))
+                </td>
+                <th>
+                    @Html.DisplayNameFor(m => m.Check_Out_Date)
+                </th>
+                <td>
+                    @Model.Check_Out_Date.ToString(new System.Globalization.CultureInfo("en-US"))
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.Guest)
+                </th>
+                <td>
+                    @Model.Guest.FirstName @Model.Guest.LastName
+                </td>
+                <th>
+                    @Html.DisplayNameFor(m => m.ReservationCost)
+                </th>
+                <td>
+                    @Model.ReservationCost $
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.Room.Hotel.City.Country)
+                </th>
+                <td>
+                    @switch (SiteLanguages.GetCurrentLanguageCulture())
+                    {
+                        case "en-US":
+                           @Model.Room.Hotel.City.Country.Name_En
+                            break;
+                        case "ar-SA":
+                       @Model.Room.Hotel.City.Country.Name_Ar
+                            break;
+                        default:
+                        @Model.Room.Hotel.City.Country.Name_En
+                            break;
+                    }
+                    
+                    
+                </td>
+                <th>
+                    @Html.DisplayNameFor(m => m.Room.Hotel.City)
+                </th>
+                <td>
+                    @switch (SiteLanguages.GetCurrentLanguageCulture())
+                    {
+                        case "en-US":
+                            @Model.Room.Hotel.City.Name_En
+                            break;
+                        case "ar-SA":
+                        @Model.Room.Hotel.City.Name_Ar
+                            break;
+                        default:
+                        @Model.Room.Hotel.City.Name_En
+                            break;
+                    }
+                    
+                    
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="row" id="prntBtn">
+    <div class="col-lg-12">
+        <a href="#" class="btn btn-block btn-primary btn-lg" onclick="window.print();">
+            <span class="glyphicon glyphicon-print">
+            </span>
+            @Resource.Print
+        </a>
+    </div>
+</div>

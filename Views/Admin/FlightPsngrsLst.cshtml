@@ -1,0 +1,158 @@
+﻿@using PagedList
+@using PagedList.Mvc
+@using TravelAndTourismWebsite.WebsiteLanguages
+@using TravelAndTourismWebsite.Resources
+@model IPagedList<TravelAndTourismWebsite.Models.FlightReservation>
+
+@{
+    ViewBag.Title = Resource.PsngrsLst;
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+
+            <img src="~/Images/plymouth-flights-header.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    @Resource.PsngrsLst: [ @Model.Count ]
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="table-responsive">
+            <table class="table customTable1">
+                <caption class="caption">
+                    <h4 class="caption text-center">
+                        @Resource.Flight
+                    </h4>
+                </caption>
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().Flight.SourceCity)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().Flight.DestinationCity)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().Flight.Date)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().Flight.Time)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().Flight.FlightDuration)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().Flight.EcoSeatsCount)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().Flight.FrstSeatsCount)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            @switch(SiteLanguages.GetCurrentLanguageCulture())
+                            {
+                                case "en-us":
+                                     @Model.FirstOrDefault().Flight.SourceCity.Name_En
+                                    break;
+                                case "ar-SA":
+                                    @Model.FirstOrDefault().Flight.SourceCity.Name_Ar
+                                    break;
+                                default:
+                                     @Model.FirstOrDefault().Flight.SourceCity.Name_En
+                                    break;
+                            }
+                           
+                        </td>
+                        <td>
+                            @switch(SiteLanguages.GetCurrentLanguageCulture())
+                            {
+                                case "en-us":
+                                     @Model.FirstOrDefault().Flight.DestinationCity.Name_En
+                                    break;
+                                case "ar-SA":
+                                     @Model.FirstOrDefault().Flight.DestinationCity.Name_Ar
+                                    break;
+                                default:
+                                     @Model.FirstOrDefault().Flight.DestinationCity.Name_En
+                                    break;
+                            }
+                        </td>
+                        <td>
+                            @Model.FirstOrDefault().Flight.Date.ToShortDateString()
+                        </td>
+                        <td>
+                            @Model.FirstOrDefault().Flight.Time
+                        </td>
+                        <td>
+                            @Model.FirstOrDefault().Flight.FlightDuration
+                        </td>
+                        <td>
+                            @Model.FirstOrDefault().Flight.EcoSeatsCount
+                        </td>
+                        <td>
+                            @Model.FirstOrDefault().Flight.FrstSeatsCount
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr />
+        <div class="table-responsive">
+            <table class="table customTable1">
+                <caption class="caption">
+                    <h4 class="text-center">
+                        @Resource.PsngrsLst
+                    </h4>
+                </caption>
+                <thead>
+                    <tr>
+                        <th>
+                            @Resource.PssngrName
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().Seats)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().FlightClass)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var r in Model)
+                    {
+                        <tr>
+                            <td>
+                                @r.Customer.FirstName @r.Customer.LastName
+                            </td>
+                            <td>
+                                @r.Seats
+                            </td>
+                            <td>
+                                @(r.FlightClass == "FirstClass" ? Resource.FirstClass : Resource.EconomyClass)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @Html.PagedListPager(Model, page => Url.Action("FlightPsngrsLst", "Admin", new { page }),
+                        new PagedListRenderOptions()
+                        {
+                            Display = PagedListDisplayMode.IfNeeded,
+                            DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded
+                        })
+    </div>
+</div>
+

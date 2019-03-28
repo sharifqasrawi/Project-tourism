@@ -1,0 +1,24 @@
+﻿@model TravelAndTourismWebsite.Models.ApplicationUser
+@using TravelAndTourismWebsite.Resources
+
+@{
+    if (Model.Active)
+    {
+        @Ajax.ActionLink(Resource.Active, "BlockUnblockUser", "admin", new { Id = Model.Id },
+                            new AjaxOptions { HttpMethod = "GET",
+                                              UpdateTargetId = "divUserStatus_"+Model.Id,
+                                              LoadingElementId = "DivWaiting",
+                                              InsertionMode = InsertionMode.Replace,},
+                            new { @class="btn btn-success btn-sm", title = Resource.Block, id="BtnActive" } )
+        
+    }
+    else
+    {
+          @Ajax.ActionLink(Resource.Blocked, "BlockUnblockUser", "admin", new { Id = Model.Id },
+                                  new AjaxOptions { HttpMethod = "GET",
+                                                    UpdateTargetId = "divUserStatus_"+Model.Id,
+                                                    LoadingElementId = "DivWaiting",
+                                                    InsertionMode = InsertionMode.Replace },
+                                     new { @class = "btn btn-danger btn-sm", title = Resource.Unblock, id = "BtnBlocked" })
+    }
+}

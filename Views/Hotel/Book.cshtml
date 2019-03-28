@@ -1,0 +1,212 @@
+﻿@model TravelAndTourismWebsite.Models.HotelReservation
+@using TravelAndTourismWebsite.Resources
+@using TravelAndTourismWebsite.WebsiteLanguages
+@{
+    ViewBag.Title = Resource.Book;
+   
+}
+
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+            <img src="~/Images/headerHotel.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-check"></span>
+                    @Resource.Book
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h3 class="@ViewBag.Alert text-center">
+            @ViewBag.Message
+        </h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="alert alert-success text-center">
+            <span class="glyphicon glyphicon-lamp"></span>
+            @Resource.Hotel:
+            @switch (SiteLanguages.GetCurrentLanguageCulture())
+            {
+                case "en-US":
+                    @Model.Room.Hotel.Name_En
+                    break;
+                case "ar-SA":
+                @Model.Room.Hotel.Name_Ar
+                    break;
+                default:
+                @Model.Room.Hotel.Name_En
+                    break;
+            }
+
+            <br />
+            @for (int i = 0; i < Model.Room.Hotel.Stars; i++)
+            {
+                <img src="~/Images/star.png" width="30" />
+            }
+        </h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <table class="table">
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(m => m.Room.Room.Type)
+                </td>
+                <td>
+                    @(Model.Room.Room.Type == "Room" ? Resource.Room : Resource.Sweet)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(m => m.Room.Room.Cust_Count)
+                </td>
+                <td>
+                    @Model.Room.Room.Cust_Count
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(m => m.Room.NightPrice)
+                </td>
+                <td>
+                    <span id="nightCost">
+                        @Model.Room.NightPrice
+                    </span> $
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-lg-6">
+        <table class="table">
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(m => m.Room.Room.Details_En)
+                </td>
+                <td>
+                    @switch (SiteLanguages.GetCurrentLanguageCulture())
+                    {
+                        case "en-us":
+                            <p>
+                                <ul class="">
+                                    @foreach (var line in Model.Room.Room.Details_En.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+                                    {
+                                        <li>
+                                            @line
+                                        </li>
+                                    }
+                                </ul>
+                            </p>
+                                    break;
+                        case "ar-SA":
+                        <p>
+                            <ul class="">
+                                @foreach (var line in Model.Room.Room.Details_Ar.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+                                {
+                                    <li>
+                                        @line
+                                    </li>
+                                }
+                            </ul>
+                        </p>
+                                break;
+                        default:
+                        <p>
+                            <ul class="">
+                                @foreach (var line in Model.Room.Room.Details_En.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+                                {
+                                    <li>
+                                        @line
+                                    </li>
+                                }
+                            </ul>
+                        </p>
+                                break;
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<hr />
+
+@using (Html.BeginForm("Book", "Hotel", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    
+    @Html.Hidden("RoomId", Model.Room.Id)
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Check_In_Date, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.DisplayCheck_In_Date, new { @class = "form-control", Id = "CheckIndatepicker" })
+                    @Html.ValidationMessageFor(m => m.DisplayCheck_In_Date)
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Check_Out_Date, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.DisplayCheck_Out_Date, new { @class = "form-control", Id = "CheckOutdatepicker" })
+                    @Html.ValidationMessageFor(m => m.DisplayCheck_Out_Date)
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="alert alert-info text-center">
+                <span class="glyphicon glyphicon-usd"></span>
+                <span id="cost">@Resource.TotalCost </span>
+            </h3>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-12">
+            <button type="submit" class="btn btn-block btn-success" onclick="return CheckDates($('#CheckIndatepicker').val(), $('#CheckOutdatepicker').val());">
+                <span class="glyphicon glyphicon-check"></span>
+                @Resource.Book
+            </button>
+        </div>
+    </div>
+}
+
+
+<!-- Errors Modal -->
+<div id="errorModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <span class="glyphicon glyphicon-remove-circle"> </span>
+                    @Resource.Error
+                </h4>
+            </div>
+            <div class="modal-body">
+                @Resource.checkDatesError
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">@Resource.Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,119 @@
+﻿@using TravelAndTourismWebsite.Resources
+@using PagedList
+@using PagedList.Mvc
+@using TravelAndTourismWebsite.WebsiteLanguages
+@model IPagedList<TravelAndTourismWebsite.Models.City>
+@{
+    ViewBag.Title = Resource.Cities;
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="header-wrapper">
+            <img src="~/Images/w2.jpg" class="header-image" />
+            <div class="header-contents">
+                <h2>
+                    <span class="glyphicon glyphicon-globe"></span>
+                    @Resource.Cities
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-lg-12">
+        <a href="@Url.Action("AddNewCity", "Admin", new { CountryId = int.Parse(Request["Country"]) })" class="btn btn-lg btn-default btn-block">
+            <span class="glyphicon glyphicon-plus-sign"></span>
+            @Resource.AddNewCity
+        </a>
+    </div>
+</div>
+
+<hr />
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="table-responsive">
+            <table class="table customTable1">
+                <caption class="caption">
+                    <h4 class="text-center">
+                        @Resource.CitiesList
+                    </h4>
+                </caption>
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().Name_En)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.First().Country.Name_En)
+                        </th>
+                        <th colspan="2" class="text-center">
+                            @Resource.Options
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var c in Model)
+                    {
+                        <tr>
+                            <td>
+                                @switch (SiteLanguages.GetCurrentLanguageCulture())
+                                {
+                                    case "en-US":
+                                        @c.Name_En
+                                        break;
+                                    case "ar-SA":
+                                    @c.Name_Ar
+                                        break;
+                                    default:
+                                    @c.Name_En
+                                        break;
+                                }
+                            </td>
+                            <td>
+                                @switch (SiteLanguages.GetCurrentLanguageCulture())
+                                {
+                                    case "en-US":
+                                        @c.Country.Name_En
+                                        break;
+                                    case "ar-SA":
+                                    @c.Country.Name_Ar
+                                        break;
+                                    default:
+                                    @c.Country.Name_En
+                                        break;
+                                }
+                            </td>
+                            <td>
+                                <a href="@Url.Action("EditCity", "Admin", new { id = c.Id })" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                    @Resource.Edit
+                                </a>
+
+                            </td>
+                            <td>
+                                <a href="@Url.Action("DeleteCity", "Admin", new { id = c.Id })" class="btn btn-danger  btn-sm"
+                                   onclick="return confirm('@Resource.AreYouSureYouWantTo @Resource.DeleteCity ? ');">
+                                    <span class="glyphicon glyphicon-erase"></span>
+                                    @Resource.Delete
+                                </a>
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @Html.PagedListPager(Model, page => Url.Action("Cities", "Admin", new { page }),
+                        new PagedListRenderOptions()
+                        {
+                            Display = PagedListDisplayMode.IfNeeded,
+                            DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded
+                        })
+    </div>
+</div>
+

@@ -1,0 +1,335 @@
+﻿@model TravelAndTourismWebsite.Models.HomeViewModel
+@using TravelAndTourismWebsite.WebsiteLanguages
+@using TravelAndTourismWebsite.Resources
+@{
+    ViewBag.Title = Resource.Home;
+    int offersCount = new TravelAndTourismWebsite.Models.ApplicationDbContext().Offers.Count();
+}
+<script type="text/javascript">
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "http://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.7";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    @if ((User.IsInRole("Admin") || User.IsInRole("Flights Manager") || User.IsInRole("Support") || User.IsInRole("Hotel Manager") || User.IsInRole("Offers Manager")) && !User.IsInRole("User"))
+    {
+        <text>
+    window.location.href = '@Url.Action("Index","Admin")';
+    </text>
+    }
+</script>
+
+
+<div data-ride="carousel" class="carousel slide" id="carousel-example-captions">
+    <ol class="carousel-indicators">
+        <li class="active" data-slide-to="0" data-target="#carousel-example-captions"></li>
+        <li data-slide-to="1" data-target="#carousel-example-captions" class=""></li>
+        <li data-slide-to="2" data-target="#carousel-example-captions"></li>
+        <li data-slide-to="3" data-target="#carousel-example-captions" class=""></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="item active">
+            <img style="width:100%;" alt="" src="images/slider/s2.jpg" />
+            <div class="carousel-caption">
+                <h3>@Resource.Welcometoourwebsite</h3>
+                <p class="hidden-xs">@Resource.WelcomeParg</p>
+            </div>
+        </div>
+        <div class="item">
+            <img style="width:100%;" alt="" src="images/slider/s1.jpg" />
+            <div class="carousel-caption">
+                <h3>@Resource.TravelToWorld</h3>
+                <p class="hidden-xs">@Resource.TravelToWorldParg</p>
+            </div>
+        </div>
+        <div class="item">
+            <img style="width:100%;" alt="" src="images/slider/s3.jpg" />
+            <div class="carousel-caption">
+                <h3>@Resource.BookRooms</h3>
+                <p class="hidden-xs">@Resource.BookRoomsParg</p>
+            </div>
+        </div>
+        <div class="item">
+            <img style="width:100%;" alt="" src="images/slider/s4.jpg" />
+            <div class="carousel-caption">
+                <h3>@Resource.BookFlights</h3>
+                <p class="hidden-xs">@Resource.BookFlightsParg</p>
+            </div>
+        </div>
+    </div>
+    <!--
+    <a data-slide="prev" role="button" href="#carousel-example-captions" class="left carousel-control">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+    </a>
+    <a data-slide="next" role="button" href="#carousel-example-captions" class="right carousel-control">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+        -->
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3>
+                    <span class="glyphicon glyphicon-globe"></span>
+                    @Resource.RecommendedCountries
+                </h3>
+                <h5>
+                    @Resource.RecommendedCountriesParg
+                </h5>
+                @foreach (var c in Model.Countries)
+                {
+                    <a href="@Url.Action("Cities", "World", new { CountryId = c.Id })">
+                        <div class="CountryBox text-center">
+                            <img src="@Url.Content(c.Cities.First().Images[0].Path)" class="flag img-responsive img-thumbnail" />
+                            <h5 class="text-center label label-success">
+                                @switch (TravelAndTourismWebsite.WebsiteLanguages.SiteLanguages.GetCurrentLanguageCulture())
+                                {
+                                    case "en-US":
+                                        @c.Name_En
+                                        break;
+                                    case "ar-SA":
+                                    @c.Name_Ar
+                                        break;
+                                    default:
+                                    @c.Name_En
+                                        break;
+                                }
+                            </h5>
+                        </div>
+                    </a>
+                }
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-12">
+                <a href="@Url.Action("Countries","World")" class="btn btn-primary">
+                    @Resource.ViewMore
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3>
+                    <span class="glyphicon glyphicon-bed"></span>
+                    @Resource.RecommendedHotels
+                </h3>
+                <h5>
+                    @Resource.RecommendedHotelsParg
+                </h5>
+                @foreach (var h in Model.Hotels)
+                {
+                    <a href="@Url.Action("HotelPreview", "Hotel", new { HotelId = h.Id })">
+                        <div class="CountryBox text-center">
+                            <img src="@Url.Content(h.Images[0].Path)" class="flag img-responsive img-thumbnail" />
+                            <h5 class="text-center label label-success">
+                                @switch (TravelAndTourismWebsite.WebsiteLanguages.SiteLanguages.GetCurrentLanguageCulture())
+                                {
+                                    case "en-US":
+                                        @h.Name_En
+                                        break;
+                                    case "ar-SA":
+                                    @h.Name_Ar
+                                        break;
+                                    default:
+                                    @h.Name_En
+                                        break;
+                                }
+                            </h5>
+                        </div>
+                    </a>
+                }
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-12">
+                <a href="@Url.Action("AllHotels","Hotel")" class="btn btn-primary">
+                    @Resource.ViewMore
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<hr />
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3>
+                    <span class="glyphicon glyphicon-plane"></span>
+                    @Resource.FlightsReservations
+                </h3>
+                <h5>
+                    @Resource.FlightsParg
+                    <a href="@Url.Action("Flights","Flight")" class="btn btn-success btn-sm">
+                        @Resource.Flights2
+                    </a>
+                </h5>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<hr />
+<div class="row">
+    <div class="col-lg-12">
+        <h3>
+            <span class="glyphicon glyphicon-gift"></span>
+            @Resource.Offers:
+        </h3>
+        <h5>
+            @Resource.OffersParg
+        </h5>
+        <div class="table-responsive">
+            @if (Model.Offers.Count == 0)
+            {
+                <h3 class="text-center alert alert-danger">
+                    @Resource.NoRecordsFound
+                </h3>
+            }
+            else
+            {
+                <table class="table customTable1">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.Offers.First().FlightReservations[0].Flight.DestinationCity.Country.Name_En)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.Offers.First().FlightReservations[0].Flight.DestinationCity.Name_En)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.Offers.First().CustomersCount)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.Offers.First().FlightReservations[0].Flight.Date)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.Offers.First().Count)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.Offers.First().Price)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(m => m.Offers.First().NewPrice)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var o in Model.Offers)
+                        {
+                            <tr>
+                                <td class="text-center">
+                                    <img src="@Url.Content(o.FlightReservations[0].Flight.DestinationCity.Images[0].Path)" class="OfferImg " />
+                                </td>
+                                <td>
+                                    @switch (SiteLanguages.GetCurrentLanguageCulture())
+                                    {
+                                        case "en-US":
+                                            @o.FlightReservations[0].Flight.DestinationCity.Country.Name_En
+                                            break;
+                                        case "ar-SA":
+                                        @o.FlightReservations[0].Flight.DestinationCity.Country.Name_Ar
+                                            break;
+                                        default:
+                                        @o.FlightReservations[0].Flight.DestinationCity.Country.Name_En
+                                            break;
+                                    }
+                                </td>
+                                <td>
+                                    @switch (SiteLanguages.GetCurrentLanguageCulture())
+                                    {
+                                        case "en-US":
+                                            @o.FlightReservations[0].Flight.DestinationCity.Name_En
+                                            break;
+                                        case "ar-SA":
+                                        @o.FlightReservations[0].Flight.DestinationCity.Name_Ar
+                                            break;
+                                        default:
+                                        @o.FlightReservations[0].Flight.DestinationCity.Name_En
+                                            break;
+                                    }
+                                </td>
+                                <td>
+                                    @o.CustomersCount
+                                </td>
+                                <td>
+                                    @o.FlightReservations[0].Flight.DisplayDate
+                                </td>
+                                <td>
+                                    @o.Count
+                                </td>
+                                <td style="text-decoration:line-through">
+                                    @o.Price $
+                                </td>
+                                <td>
+                                    @o.NewPrice $
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("OfferPreview", "Offer", new { Id = o.Id })" class="btn btn-sm btn-primary">
+                                        <span class="glyphicon glyphicon-check"></span>
+                                        @Resource.Book
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+        @if (offersCount > 3)
+        {
+            <a href="@Url.Action("AllOffers","Offer")" class="btn btn-default AnimatedBtn">
+                @Resource.ViewAllOffers
+                <span></span>
+            </a>
+        }
+
+    </div>
+</div>
+
+<hr />
+<div class="row">
+    <div class="col-lg-8">
+        <div id="WebsiteRatings">
+            @Html.Partial("_WebsiteRatingPartial")
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <h3 class="cat-title" style="color:white;">
+            <img src="~/Images/ThumbFinal_4.9.png" width="20" />
+            @Resource.LikeUs
+        </h3>
+        <p class="cat-title-after"></p>
+        <div class="fb-page"
+             data-href="https://www.facebook.com/DSHServices1/" data-width="350"
+             data-small-header="true" data-adapt-container-width="true" data-hide-cover="false"
+             data-show-facepile="true"
+             data-title="Facebook">
+            <blockquote cite="https://www.facebook.com/DSHServices1/"
+                        class="fb-xfbml-parse-ignore">
+                <a href="https://www.facebook.com/DSHServices1/" class="btn btn-primary" target="_blank">
+                    <img src="~/Images/facebook.png" width="20" />
+                    @Resource.OurPageOnFacebook
+                </a>
+                <span class="sr-only">Loading...</span>
+            </blockquote>
+        </div>
+    </div>
+</div>
